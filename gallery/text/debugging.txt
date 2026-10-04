@@ -1,0 +1,31 @@
+WHY THE APP IS SLOWER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ DIAGNOSIS
+
+█▀▀ █▀█ █▀█       ✕ N+1 QUERY IN ORDER HISTORY
+█▀█ █▀█ █ █       Introduced in a3f9c1, grows with order count
+▀▀▀ ▀▀▀ ▀▀▀ ms
+
+P95 LATENCY
+102 ms ► 680 ms  ▲ +567%
+680 ms ┤                                                                      ╭─────
+535 ms ┤                                                       ╭──────────────╯
+389 ms ┤                                           ╭───────────╯
+244 ms ┤┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄╭─────────────╯┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+ 98 ms ┤─────────────────────────────╯
+       └────────────────────────────────────────────────────────────────────────────
+        09                      10                       11                       12
+                                   ▲ deploy a3f9c1
+┄┄ threshold 300 ms
+
+CAUSAL CHAIN
+deploy a3f9c1 ──► ▲ orders.map(load) ──► ✕ 1 query / order ──► ✕ pool exhausted
+
+680 ms ✕                 214 ✕                    100% ✕                   0.4% ✓
+P95                      QUERIES/REQ              DB POOL                  ERROR RATE
++566%                    +212
+
+NEXT
+▌ BATCH THE ORDER LOOKUPS
+▌ ► Replace per-order load() with a single WHERE id IN (…) query
+▌ $ src/orders/history.ts:42
+
+[1] fix the n+1

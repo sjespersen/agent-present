@@ -1,0 +1,39 @@
+{
+  "present": "0.1",
+  "title": "Incident 2291",
+  "subtitle": "auth outage",
+  "intent": "summary",
+  "takeaway": { "status": "good", "text": "Resolved in 7 minutes", "detail": "Root cause: migration 182 not applied" },
+  "blocks": [
+    {
+      "type": "timeline",
+      "events": [
+        { "at": "09:14", "label": "deploy" },
+        { "at": "09:16", "label": "errors", "status": "critical", "note": "auth failures begin" },
+        { "at": "09:18", "label": "rollback", "status": "warning" },
+        { "at": "09:21", "label": "stable", "status": "good" }
+      ]
+    },
+    {
+      "type": "metric",
+      "label": "Context used",
+      "value": 93,
+      "unit": "k",
+      "max": 128,
+      "caption": "93k / 128k tokens",
+      "status": "warning",
+      "trend": [12, 20, 31, 44, 52, 60, 71, 80, 93]
+    },
+    {
+      "type": "evidence",
+      "claim": "Auth failures began after migration 182.",
+      "confidence": "high",
+      "items": [
+        { "label": "migration deployed", "value": "09:16" },
+        { "label": "failures begin", "value": "09:16" },
+        { "label": "rollback", "value": "09:21" },
+        { "label": "failures disappear", "value": "09:21" }
+      ]
+    }
+  ]
+}

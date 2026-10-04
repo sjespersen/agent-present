@@ -1,0 +1,61 @@
+{
+  "present": "0.1",
+  "title": "Why the app is slower",
+  "intent": "diagnosis",
+  "takeaway": { "status": "critical", "text": "N+1 query in order history", "detail": "Introduced in a3f9c1, grows with order count", "value": 680, "unit": "ms" },
+  "blocks": [
+    {
+      "type": "trend",
+      "id": "latency",
+      "title": "p95 latency",
+      "label": "p95",
+      "unit": "ms",
+      "series": [{ "values": [102, 98, 110, 105, 112, 180, 240, 310, 330, 420, 510, 520, 600, 680] }],
+      "xLabels": ["09", "10", "11", "12"],
+      "threshold": 300,
+      "status": "critical",
+      "annotation": "deploy a3f9c1"
+    },
+    {
+      "type": "flow",
+      "id": "cause",
+      "title": "Causal chain",
+      "nodes": [
+        { "id": "deploy", "label": "deploy a3f9c1" },
+        { "id": "loop", "label": "orders.map(load)", "status": "warning" },
+        { "id": "queries", "label": "1 query / order", "status": "critical" },
+        { "id": "pool", "label": "pool exhausted", "status": "critical" }
+      ]
+    },
+    {
+      "type": "metrics",
+      "id": "key-metrics",
+      "items": [
+        { "label": "p95", "value": 680, "unit": "ms", "status": "critical", "delta": "+566%" },
+        { "label": "queries/req", "value": 214, "status": "critical", "delta": "+212" },
+        { "label": "db pool", "value": 100, "unit": "%", "status": "critical" },
+        { "label": "error rate", "value": 0.4, "unit": "%", "status": "good" }
+      ]
+    },
+    {
+      "type": "verdict",
+      "title": "Next",
+      "text": "Batch the order lookups",
+      "status": "info",
+      "next": "Replace per-order load() with a single WHERE id IN (…) query",
+      "command": "src/orders/history.ts:42"
+    }
+  ],
+  "actions": [
+    { "id": "fix", "label": "Fix the N+1", "intent": "agent", "prompt": "Replace the per-order load() in src/orders/history.ts with a batched query and add a regression test that asserts the query count." }
+  ],
+  "evidence": [
+    { "label": "first slow request", "value": "10:02, 4 min after deploy" },
+    { "label": "query log", "value": "214 SELECTs for a 213-order account" },
+    { "label": "revert on staging", "value": "p95 back to 104 ms" }
+  ],
+  "sources": [
+    { "label": "commit", "ref": "a3f9c1" },
+    { "label": "history loader", "ref": "src/orders/history.ts", "location": "38-57" }
+  ]
+}

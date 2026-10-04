@@ -1,0 +1,7 @@
+Authentication in this repository works as follows. When a user logs in, the browser sends a `POST /login` request to the API. The API then delegates to one of two mechanisms depending on how the user signs in: either the password verifier, which uses argon2id to check the submitted password against the stored hash, or the OAuth callback handler, which completes the OAuth flow with the external identity provider.
+
+Both of these paths ultimately create a `Session` row in the session database. Once the session has been created, the API responds with a cookie that is signed using HMAC-SHA256 and marked `HttpOnly` and `SameSite=Lax`. The browser then sends this cookie with subsequent requests, which is how the user stays authenticated.
+
+From a trust perspective, the browser should be considered untrusted, while the cookie is signed so it cannot be tampered with. The session database is trusted. Importantly, the OAuth access tokens are kept server-side and never reach the browser, which is good practice.
+
+The main weakness I found is the session lifetime. Sessions are valid for 30 days, and the session id is never rotated — not on login and not when privileges change. This means a stolen cookie would remain valid for up to a month. I would recommend rotating the session id on privilege changes and capping the session lifetime at around 7 days. Everything else follows established best practice.

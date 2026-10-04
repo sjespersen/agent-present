@@ -1,0 +1,29 @@
+RELEASE  v2.8.0 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ DECISION
+
+█▀█ ▀▀█ ▀ █    ▲ DON'T SHIP YET
+█▀█   █ ▄▀     2 blockers remain
+▀▀▀   ▀ ▀ ▀    ██████████████████████████████████████▎░░░░░
+
+TESTS
+418 PASS     11 FAIL     6 FLAKY
+███████████████████████████████████████████████████████████████████████████████████████████▓▓▓▒  96%
+
+RISK MAP
+       impact ►    LOW    MED   HIGH
+likelihood HIGH     ·      ·      █     █ auth migration
+            MED     ·      ●      ▲     ▲ payment retry   ● flaky e2e
+            LOW     ·      ●      ·     ● docs drift
+
+BLOCKING PATH
+┌─────┐       ┌──────┐         ┌───────────────────┐
+│ API │ ────► │ Auth │ ───╳──► │ ✕ users migration │
+└─────┘       └──────┘         └───────────────────┘
+                                  column missing
+
+▌ ✕ FIX THIS FIRST
+▌ ► Apply migration 182 before tagging
+▌ $ pnpm db:migrate
+
++ 3 more · payment retry queue · change impact · why the migration
+
+[1] fix migration    [2] explain    [3] quarantine flaky tests

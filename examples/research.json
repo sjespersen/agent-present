@@ -1,0 +1,56 @@
+{
+  "present": "0.1",
+  "title": "Vector DB for 50M docs",
+  "intent": "research",
+  "takeaway": { "status": "good", "text": "Postgres + pgvector is enough", "detail": "Revisit at ~200M vectors" },
+  "blocks": [
+    {
+      "type": "distribution",
+      "id": "evidence-weight",
+      "title": "Where the evidence points",
+      "unit": " sources",
+      "items": [
+        { "label": "pgvector suffices", "value": 9, "status": "good" },
+        { "label": "dedicated DB needed", "value": 4, "status": "warning" },
+        { "label": "inconclusive", "value": 2 }
+      ]
+    },
+    {
+      "type": "metrics",
+      "items": [
+        { "label": "recall@10", "value": 0.97, "status": "good" },
+        { "label": "p99 query", "value": 38, "unit": "ms", "status": "good" },
+        { "label": "index build", "value": 6.5, "unit": "h", "status": "warning" },
+        { "label": "infra cost", "value": "+0", "unit": "€", "status": "good" }
+      ]
+    },
+    {
+      "type": "hierarchy",
+      "title": "Options considered",
+      "root": {
+        "label": "vector search",
+        "children": [
+          { "label": "in Postgres", "children": [{ "label": "pgvector HNSW", "status": "good", "note": "pick" }, { "label": "pgvecto.rs", "note": "less mature" }] },
+          { "label": "dedicated", "children": [{ "label": "Qdrant", "note": "best perf" }, { "label": "Milvus", "note": "ops heavy", "status": "warning" }] },
+          { "label": "managed", "children": [{ "label": "Pinecone", "note": "cost at 50M", "status": "critical" }] }
+        ]
+      }
+    },
+    {
+      "type": "checklist",
+      "title": "Fit for us",
+      "items": [
+        { "label": "< 50 ms p99", "state": "done" },
+        { "label": "no new infra", "state": "done" },
+        { "label": "transactional with app data", "state": "done" },
+        { "label": "index build under 2h", "state": "failed", "note": "6.5h" },
+        { "label": "tested at 200M", "state": "pending" }
+      ]
+    }
+  ],
+  "sources": [
+    { "label": "pgvector 0.8 benchmarks", "ref": "https://github.com/pgvector/pgvector" },
+    { "label": "ANN-benchmarks", "ref": "https://ann-benchmarks.com" },
+    { "label": "Qdrant benchmarks", "ref": "https://qdrant.tech/benchmarks/" }
+  ]
+}

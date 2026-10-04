@@ -1,0 +1,53 @@
+{
+  "present": "0.1",
+  "title": "Authentication",
+  "intent": "explanation",
+  "takeaway": { "status": "warning", "text": "Sessions live 30 days with no rotation", "detail": "Everything else follows best practice" },
+  "blocks": [
+    {
+      "type": "architecture",
+      "id": "auth-flow",
+      "nodes": [
+        { "id": "browser", "label": "browser", "kind": "actor" },
+        { "id": "api", "label": "API" },
+        { "id": "password", "label": "password" },
+        { "id": "oauth", "label": "OAuth" },
+        { "id": "session", "label": "Session", "status": "warning", "note": "30d, no rotation" },
+        { "id": "user", "label": "USER", "kind": "outcome" }
+      ],
+      "edges": [
+        { "from": "browser", "to": "api", "label": "POST /login" },
+        { "from": "api", "to": "password" },
+        { "from": "api", "to": "oauth" },
+        { "from": "password", "to": "session" },
+        { "from": "oauth", "to": "session" },
+        { "from": "session", "to": "user", "label": "signed cookie" }
+      ],
+      "boundaryTitle": "Trust boundary",
+      "boundaries": [
+        { "label": "browser", "note": "untrusted", "status": "critical" },
+        { "label": "cookie", "note": "signed (HMAC-SHA256)", "status": "good" },
+        { "label": "session DB", "note": "trusted", "status": "good" },
+        { "label": "OAuth token", "note": "never reaches browser", "status": "good" }
+      ]
+    },
+    {
+      "type": "verdict",
+      "title": "Main risk",
+      "text": "Session lifetime is 30 days with no rotation",
+      "status": "warning",
+      "next": "Rotate session id on privilege change; cap lifetime at 7 days"
+    }
+  ],
+  "actions": [
+    { "id": "rotate", "label": "Add session rotation", "intent": "agent", "prompt": "Implement session id rotation on login and privilege change, and cap session lifetime at 7 days." }
+  ],
+  "sources": [
+    { "label": "login route", "ref": "src/routes/login.ts" },
+    { "label": "session store", "ref": "src/auth/session-store.ts" },
+    { "label": "oauth callback", "ref": "src/auth/oauth.ts" }
+  ],
+  "detail": {
+    "markdown": "`POST /login` hits the API, which delegates to either the password verifier (argon2id) or the OAuth callback handler. Both produce a `Session` row and the API answers with a signed, `HttpOnly`, `SameSite=Lax` cookie. OAuth access tokens stay server-side. The weak point is lifetime: sessions are valid for 30 days and the id is never rotated, so a stolen cookie stays valid for a month."
+  }
+}

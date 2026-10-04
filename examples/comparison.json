@@ -1,0 +1,29 @@
+{
+  "present": "0.1",
+  "title": "Local LLM box",
+  "intent": "comparison",
+  "takeaway": { "status": "good", "text": "Pick Strix Halo", "detail": "Big models matter more than raw speed for this workload" },
+  "blocks": [
+    {
+      "type": "comparison",
+      "id": "hardware",
+      "options": [
+        { "id": "strix", "label": "Strix Halo", "summary": "big models" },
+        { "id": "rtx", "label": "RTX 5090", "summary": "raw speed" },
+        { "id": "mac", "label": "Mac Studio", "summary": "quiet desk" }
+      ],
+      "dimensions": [
+        { "label": "Memory", "unit": "GB", "values": [128, 32, 96] },
+        { "label": "Speed", "unit": "tok/s", "values": [32, 81, 41] },
+        { "label": "Power", "unit": "W", "better": "lower", "values": [120, 575, 270] },
+        { "label": "Price", "unit": "€", "better": "lower", "values": [2100, 3400, 4600] },
+        { "label": "Noise", "values": [{ "value": 2, "label": "quiet" }, { "value": 5, "label": "loud" }, { "value": 1, "label": "silent" }], "better": "lower" }
+      ],
+      "winner": "strix",
+      "rationale": "Only option that fits a 70B model at 4-bit with room for context"
+    }
+  ],
+  "actions": [
+    { "id": "build", "label": "Draft a parts list", "intent": "agent", "prompt": "Draft a parts list and total price for a Strix Halo build with 128 GB." }
+  ]
+}

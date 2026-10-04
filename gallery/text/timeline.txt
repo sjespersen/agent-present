@@ -1,0 +1,21 @@
+INCIDENT 2291  auth outage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ SUMMARY
+
+▌ ✓ RESOLVED IN 7 MINUTES
+▌ Root cause: migration 182 not applied
+
+09:14           09:16              09:18           09:21
+●─────────────────✕──────────────────▲─────────────────●
+deploy          errors            rollback        stable
+                  ▲
+                  │
+         auth failures begin
+
+CONTEXT USED
+93k ▲  █████████████████████████████▏░░░░░░░░░░  73%  ▁▂▃▄▄▅▆▇█
+93k / 128k tokens
+
+Auth failures began after migration 182.                                         ●●● HIGH CONFIDENCE
+   migration deployed  ──► 09:16
+   failures begin      ──► 09:16
+   rollback            ──► 09:21
+   failures disappear  ──► 09:21

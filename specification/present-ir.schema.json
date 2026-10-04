@@ -1,0 +1,2205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-present.dev/schema/present-ir-0.1.json",
+  "title": "Present IR 0.1",
+  "description": "A semantic, renderer-independent description of how information should be presented to a human.",
+  "type": "object",
+  "properties": {
+    "present": {
+      "type": "string",
+      "description": "Present IR version, '0.1'"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title, e.g. 'Release readiness'"
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "e.g. 'v2.8.0'"
+    },
+    "intent": {
+      "type": "string",
+      "enum": [
+        "decision",
+        "assessment",
+        "explanation",
+        "comparison",
+        "diagnosis",
+        "plan",
+        "status",
+        "progress",
+        "research",
+        "summary"
+      ]
+    },
+    "takeaway": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The dominant message, e.g. 'Ready with two blockers'"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "good",
+            "warning",
+            "critical",
+            "info",
+            "neutral"
+          ],
+          "description": "Semantic status: good | warning | critical | info | neutral"
+        },
+        "detail": {
+          "type": "string",
+          "description": "One supporting line"
+        },
+        "value": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "description": "Optional headline number, rendered oversized"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "description": "The answer: a conclusion, diagnosis, recommendation or decision.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "verdict"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "One supporting line, e.g. '2 blockers'"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "text": {
+                "type": "string",
+                "description": "Short, decisive, e.g. \"DON'T SHIP YET\""
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "good",
+                  "warning",
+                  "critical",
+                  "info",
+                  "neutral"
+                ],
+                "description": "Semantic status: good | warning | critical | info | neutral"
+              },
+              "next": {
+                "type": "string",
+                "description": "Recommended next step"
+              },
+              "command": {
+                "type": "string",
+                "description": "Command that performs the next step"
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A single number made visually meaningful.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "metric"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "string"
+                ]
+              },
+              "unit": {
+                "type": "string",
+                "description": "e.g. '%', 'ms', 'GB'"
+              },
+              "max": {
+                "type": "number",
+                "description": "Top of the scale; percentages default to 100"
+              },
+              "min": {
+                "type": "number"
+              },
+              "target": {
+                "type": "number"
+              },
+              "trend": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "Recent values, oldest first"
+              },
+              "delta": {
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "description": "Change vs previous"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "good",
+                  "warning",
+                  "critical",
+                  "info",
+                  "neutral"
+                ],
+                "description": "Semantic status: good | warning | critical | info | neutral"
+              },
+              "caption": {
+                "type": "string",
+                "description": "e.g. '93k / 128k'"
+              },
+              "higherIsBetter": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "label",
+              "value"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A compact group of related measures.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "metrics"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": [
+                        "number",
+                        "string"
+                      ]
+                    },
+                    "unit": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    },
+                    "delta": {
+                      "type": [
+                        "number",
+                        "string"
+                      ]
+                    },
+                    "caption": {
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Explicit trade-offs between alternatives.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "comparison"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "description": "Short 'best for' line"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "dimensions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "description": "One value per option in option order (or an object keyed by option id)",
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "value": {
+                                    "type": "number"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "note": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "value": {
+                                    "type": "number"
+                                  },
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "note": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "better": {
+                      "type": "string",
+                      "enum": [
+                        "higher",
+                        "lower"
+                      ],
+                      "description": "Which direction wins; default higher"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "values"
+                  ]
+                }
+              },
+              "winner": {
+                "type": "string",
+                "description": "id or label of the recommended option"
+              },
+              "rationale": {
+                "type": "string",
+                "description": "One line explaining the pick"
+              }
+            },
+            "required": [
+              "type",
+              "options",
+              "dimensions"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A process, pipeline or causal chain (nodes + directed edges).",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "flow"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "nodes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "step",
+                        "service",
+                        "store",
+                        "actor",
+                        "external",
+                        "decision",
+                        "outcome"
+                      ],
+                      "description": "actor/outcome render unboxed"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    },
+                    "note": {
+                      "type": "string",
+                      "description": "Small annotation under the node"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              },
+              "edges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "description": "Node id"
+                    },
+                    "to": {
+                      "type": "string",
+                      "description": "Node id"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "critical = broken link"
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "to"
+                  ]
+                },
+                "description": "Omit to connect nodes in order"
+              }
+            },
+            "required": [
+              "type",
+              "nodes"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Systems and their dependencies, optionally with trust boundaries.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "architecture"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "nodes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "step",
+                        "service",
+                        "store",
+                        "actor",
+                        "external",
+                        "decision",
+                        "outcome"
+                      ],
+                      "description": "actor/outcome render unboxed"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    },
+                    "note": {
+                      "type": "string",
+                      "description": "Small annotation under the node"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              },
+              "edges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "description": "Node id"
+                    },
+                    "to": {
+                      "type": "string",
+                      "description": "Node id"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "critical = broken link"
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "to"
+                  ]
+                }
+              },
+              "boundaries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "note"
+                  ]
+                }
+              },
+              "boundaryTitle": {
+                "type": "string",
+                "description": "e.g. 'TRUST BOUNDARY'"
+              }
+            },
+            "required": [
+              "type",
+              "nodes"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Chronological events.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "timeline"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "at": {
+                      "type": "string",
+                      "description": "Time label, e.g. '09:14'"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "at",
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "events"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A numeric sequence over time.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "trend"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "label": {
+                "type": "string"
+              },
+              "series": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "values"
+                  ]
+                }
+              },
+              "xLabels": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "unit": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "good",
+                  "warning",
+                  "critical",
+                  "info",
+                  "neutral"
+                ],
+                "description": "Semantic status: good | warning | critical | info | neutral"
+              },
+              "threshold": {
+                "type": "number"
+              },
+              "annotation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "series"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Quantities compared; whole=true when they are parts of one total.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "distribution"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value"
+                  ]
+                }
+              },
+              "unit": {
+                "type": "string"
+              },
+              "whole": {
+                "type": "boolean",
+                "description": "Items are parts of one whole (renders a stacked bar)"
+              }
+            },
+            "required": [
+              "type",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Risks placed on an impact × likelihood matrix.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "risk"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "impact": {
+                      "type": "string",
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                      ],
+                      "description": "Impact"
+                    },
+                    "likelihood": {
+                      "type": "string",
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                      ],
+                      "description": "Likelihood"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "good",
+                        "warning",
+                        "critical",
+                        "info",
+                        "neutral"
+                      ],
+                      "description": "Semantic status: good | warning | critical | info | neutral"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "impact",
+                    "likelihood"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A tree.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "hierarchy"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "root": {
+                "$ref": "#/$defs/hierarchyNode"
+              }
+            },
+            "required": [
+              "type",
+              "root"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Items with a completion state.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "checklist"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "done",
+                        "failed",
+                        "pending",
+                        "skipped",
+                        "warning",
+                        "running"
+                      ]
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "state"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "A claim and the observations that support it.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "evidence"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "claim": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ],
+                "description": "Confidence"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "supports": {
+                      "type": "boolean",
+                      "description": "false for contradicting evidence"
+                    },
+                    "source": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "claim",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Code change impact per file.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "change"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "added": {
+                      "type": "number"
+                    },
+                    "removed": {
+                      "type": "number"
+                    },
+                    "risk": {
+                      "type": "string",
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                      ],
+                      "description": "Risk"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "files"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Work in progress.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "progress"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "state": {
+                      "type": "string",
+                      "enum": [
+                        "done",
+                        "failed",
+                        "pending",
+                        "skipped",
+                        "warning",
+                        "running"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "signal": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "good",
+                      "warning",
+                      "critical",
+                      "info",
+                      "neutral"
+                    ],
+                    "description": "Semantic status: good | warning | critical | info | neutral"
+                  }
+                },
+                "required": [
+                  "label"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "items"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Short prose (≈240 chars). Long Markdown belongs in detail.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "text"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "Stable id, lets actions target this block"
+              },
+              "title": {
+                "type": "string",
+                "description": "Short section label, e.g. 'RISK MAP'"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "secondary",
+                  "detail"
+                ],
+                "description": "primary = visible at a glance; secondary = on scan; detail = on explore"
+              },
+              "emphasis": {
+                "type": "string",
+                "enum": [
+                  "strong",
+                  "normal",
+                  "subtle"
+                ]
+              },
+              "density": {
+                "type": "string",
+                "enum": [
+                  "compact",
+                  "normal",
+                  "comfortable"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Long-form Markdown shown only when the user explores"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "ref": {
+                      "type": "string",
+                      "description": "Path, URL, command or ticket"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "e.g. line range"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          }
+        ]
+      },
+      "description": "Visual blocks, most important first (max ~5 at a glance)"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "expand",
+              "copy",
+              "open"
+            ],
+            "description": "agent = send prompt to the agent; expand = reveal target block"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "For intent agent"
+          },
+          "target": {
+            "type": "string",
+            "description": "For intent expand: block id"
+          },
+          "value": {
+            "type": "string",
+            "description": "For intent copy/open"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "intent"
+        ]
+      }
+    },
+    "detail": {
+      "type": "object",
+      "properties": {
+        "markdown": {
+          "type": "string",
+          "description": "Long explanation, shown only on explore"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "markdown": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "markdown"
+            ]
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "supports": {
+            "type": "boolean",
+            "description": "false for contradicting evidence"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "ref": {
+            "type": "string",
+            "description": "Path, URL, command or ticket"
+          },
+          "location": {
+            "type": "string",
+            "description": "e.g. line range"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      }
+    },
+    "speech": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "Spoken one-to-two sentence briefing"
+        }
+      },
+      "required": [
+        "summary"
+      ]
+    }
+  },
+  "required": [
+    "present",
+    "blocks"
+  ],
+  "$defs": {
+    "hierarchyNode": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "good",
+            "warning",
+            "critical",
+            "info",
+            "neutral"
+          ],
+          "description": "Semantic status: good | warning | critical | info | neutral"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hierarchyNode"
+          }
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  }
+}

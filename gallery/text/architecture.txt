@@ -1,0 +1,43 @@
+AUTHENTICATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ EXPLANATION
+
+▌ ▲ SESSIONS LIVE 30 DAYS WITH NO ROTATION
+▌ Everything else follows best practice
+
+                                         browser
+                                            │
+                                       POST /login
+                                            │
+                                            ▼
+                                         ┌─────┐
+                                         │ API │
+                                         └──┬──┘
+                                            │
+                                     ┌──────┴──────┐
+                                     ▼             ▼
+                               ┌───────────┐   ┌───────┐
+                               │ password  │   │ OAuth │
+                               └─────┬─────┘   └───┬───┘
+                                     │             │
+                                     └──────┬──────┘
+                                            ▼
+                                      ┌───────────┐
+                                      │ ▲ Session │  30d, no rotation
+                                      └─────┬─────┘
+                                            │
+                                      signed cookie
+                                            │
+                                            ▼
+                                           USER
+
+TRUST BOUNDARY
+──────────────────────────────────────────────
+browser       ✕ untrusted
+cookie        ✓ signed (HMAC-SHA256)
+session DB    ✓ trusted
+OAuth token   ✓ never reaches browser
+
+MAIN RISK
+▌ ▲ Session lifetime is 30 days with no rotation
+▌ ► Rotate session id on privilege change; cap lifetime at 7 days
+
+[1] add session rotation

@@ -1,0 +1,108 @@
+{
+  "present": "0.1",
+  "title": "Release",
+  "subtitle": "v2.8.0",
+  "intent": "decision",
+  "takeaway": {
+    "status": "warning",
+    "text": "Don't ship yet",
+    "detail": "2 blockers remain",
+    "value": 87,
+    "unit": "%"
+  },
+  "blocks": [
+    {
+      "type": "distribution",
+      "id": "tests",
+      "title": "Tests",
+      "whole": true,
+      "items": [
+        { "label": "pass", "value": 418, "status": "good" },
+        { "label": "fail", "value": 11, "status": "critical" },
+        { "label": "flaky", "value": 6, "status": "warning" }
+      ]
+    },
+    {
+      "type": "risk",
+      "id": "risk-map",
+      "title": "Risk map",
+      "items": [
+        { "label": "auth migration", "impact": "high", "likelihood": "high" },
+        { "label": "payment retry", "impact": "high", "likelihood": "medium" },
+        { "label": "flaky e2e", "impact": "medium", "likelihood": "medium" },
+        { "label": "docs drift", "impact": "medium", "likelihood": "low" }
+      ]
+    },
+    {
+      "type": "flow",
+      "id": "blocking-path",
+      "title": "Blocking path",
+      "nodes": [
+        { "id": "api", "label": "API" },
+        { "id": "auth", "label": "Auth" },
+        { "id": "mig", "label": "users migration", "status": "critical", "note": "column missing" }
+      ],
+      "edges": [
+        { "from": "api", "to": "auth" },
+        { "from": "auth", "to": "mig", "status": "critical" }
+      ]
+    },
+    {
+      "type": "verdict",
+      "text": "Fix this first",
+      "status": "critical",
+      "next": "Apply migration 182 before tagging",
+      "command": "pnpm db:migrate"
+    },
+    {
+      "type": "trend",
+      "id": "retry-queue",
+      "title": "Payment retry queue",
+      "label": "queue depth",
+      "priority": "secondary",
+      "series": [{ "values": [12, 14, 13, 18, 25, 41, 66, 98, 140, 188] }],
+      "xLabels": ["09:00", "10:00", "11:00", "12:00"],
+      "status": "warning"
+    },
+    {
+      "type": "change",
+      "id": "change-impact",
+      "title": "Change impact",
+      "priority": "secondary",
+      "files": [
+        { "path": "src/auth/session.ts", "added": 42, "removed": 17, "risk": "high" },
+        { "path": "src/db/schema.ts", "added": 11, "removed": 2, "risk": "high" },
+        { "path": "src/web/login.tsx", "added": 18, "removed": 8, "risk": "medium" },
+        { "path": "tests/auth.test.ts", "added": 63, "removed": 0, "risk": "low" }
+      ]
+    },
+    {
+      "type": "evidence",
+      "id": "migration-evidence",
+      "priority": "detail",
+      "title": "Why the migration",
+      "claim": "Auth failures began after migration 182.",
+      "confidence": "high",
+      "items": [
+        { "label": "migration deployed", "value": "09:16" },
+        { "label": "failures begin", "value": "09:16" },
+        { "label": "rollback", "value": "09:21" },
+        { "label": "failures disappear", "value": "09:21" }
+      ]
+    }
+  ],
+  "actions": [
+    { "id": "fix", "label": "Fix migration", "intent": "agent", "prompt": "Fix the users migration problem identified in the release review, then re-run the test suite." },
+    { "id": "explain", "label": "Explain", "intent": "expand", "target": "migration-evidence" },
+    { "id": "flaky", "label": "Quarantine flaky tests", "intent": "agent", "prompt": "List the 6 flaky tests and propose a quarantine plan." }
+  ],
+  "detail": {
+    "markdown": "## Release review — v2.8.0\n\nThe release is **87% ready**. 418 of 435 tests pass; 11 fail and 6 are flaky.\n\n### Blocker 1 — users migration (critical)\nMigration `182_add_users_v4_columns` was generated but never applied in staging. `Auth.createSession` reads `users.last_login_ip`, which does not exist yet, so every login after 09:16 failed until rollback.\n\n### Blocker 2 — payment retry queue (high)\nThe retry worker re-enqueues on every 409 from the PSP. Queue depth grew from 12 to 188 in four hours.\n\n### Recommendation\nRun `pnpm db:migrate`, re-run `pnpm test`, then fix the retry back-off before tagging."
+  },
+  "sources": [
+    { "label": "migration", "ref": "db/migrations/182_add_users_v4_columns.sql" },
+    { "label": "session reader", "ref": "src/auth/session.ts", "location": "88-121" },
+    { "label": "test run", "ref": "pnpm test --reporter=json" }
+  ],
+  "speech": { "summary": "The release is almost ready, but two issues remain. The database migration is the only critical blocker." }
+}

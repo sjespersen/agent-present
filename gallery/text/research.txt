@@ -1,0 +1,30 @@
+VECTOR DB FOR 50M DOCS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ RESEARCH
+
+▌ ✓ POSTGRES + PGVECTOR IS ENOUGH
+▌ Revisit at ~200M vectors
+
+WHERE THE EVIDENCE POINTS
+pgvector suffices    ██████████████████████████████████████████████████████████████ 9 sources  60%
+dedicated DB needed  ███████████████████████████▌                                   4 sources  27%
+inconclusive         █████████████▊                                                 2 sources  13%
+
+0.97 ✓                   38 ms ✓                  6.5 h ▲                  0 € ✓
+RECALL@10                P99 QUERY                INDEX BUILD              INFRA COST
+
+OPTIONS CONSIDERED
+vector search
+├── in Postgres
+│   ├── ✓ pgvector HNSW  pick
+│   └── pgvecto.rs  less mature
+├── dedicated
+│   ├── Qdrant  best perf
+│   └── ▲ Milvus  ops heavy
+└── managed
+    └── ✕ Pinecone  cost at 50M
+
+FIT FOR US                                                                                     3/5 ✓
+✓ < 50 ms p99
+✓ no new infra
+✓ transactional with app data
+✕ index build under 2h         6.5h
+○ tested at 200M

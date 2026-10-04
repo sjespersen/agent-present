@@ -1,0 +1,16 @@
+{
+  "present": "0.1",
+  "title": "Analyzing repository",
+  "intent": "progress",
+  "blocks": [
+    {
+      "type": "progress",
+      "items": [
+        { "label": "files", "value": 64, "total": 81, "state": "running" },
+        { "label": "tests", "state": "done" },
+        { "label": "deps", "value": 34, "total": 61, "state": "running" }
+      ],
+      "signal": { "label": "auth migration", "value": "high risk", "status": "critical" }
+    }
+  ]
+}

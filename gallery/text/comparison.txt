@@ -1,0 +1,21 @@
+LOCAL LLM BOX ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ COMPARISON
+
+▌ ✓ PICK STRIX HALO
+▌ Big models matter more than raw speed for this workload
+
+          STRIX HALO                    RTX 5090                      MAC STUDIO
+MEMORY    ███████████████████████████   ██████▊                       ████████████████████▎
+          128 GB ●                      32 GB                         96 GB
+SPEED     ██████████▋                   ███████████████████████████   █████████████▋
+          32 tok/s                      81 tok/s ●                    41 tok/s
+POWER     █████▋                        ███████████████████████████   ████████████▋
+          120 W ●                       575 W                         270 W
+PRICE     ████████████▍                 ████████████████████          ███████████████████████████
+          2100 € ●                      3400 €                        4600 €
+NOISE     ██████████▊                   ███████████████████████████   █████▍
+          quiet                         loud                          silent ●
+BEST FOR  BIG MODELS                    RAW SPEED                     QUIET DESK
+          ▲
+          PICK  Only option that fits a 70B model at 4-bit with room for context
+
+[1] draft a parts list
