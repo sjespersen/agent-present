@@ -116,6 +116,12 @@ export class Explorer implements Component {
     return lines.map((l) => truncate(l, width));
   }
 
+  /** Opens on the block an "expand" action points at. */
+  reveal(blockId: string): void {
+    const block = this.doc.blocks.find((b) => b.id === blockId);
+    this.jumpTo((block?.title ?? (block?.type === "evidence" ? block.claim : "")).toUpperCase());
+  }
+
   private jumpTo(heading: string, depth: Depth = "explore"): void {
     this.raw = false;
     this.depth = depth;
@@ -193,8 +199,7 @@ export class Explorer implements Component {
         if (n >= 1 && n <= 9 && this.doc.actions[n - 1]) {
           const action = this.doc.actions[n - 1];
           if (action.intent === "expand" && action.target) {
-            const block = this.doc.blocks.find((b) => b.id === action.target);
-            this.jumpTo((block?.title ?? (block?.type === "evidence" ? block.claim : "")).toUpperCase());
+            this.reveal(action.target);
           } else if (action.intent === "copy") {
             void this.copy(action.value ?? action.label).then(() => {
               this.status = `copied ${action.label.toLowerCase()}`;

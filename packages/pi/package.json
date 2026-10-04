@@ -27,5 +27,17 @@
   "devDependencies": {
     "@agent-present/core": "0.1.0",
     "@agent-present/terminal": "0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjespersen/agent-present.git",
+    "directory": "packages/pi"
+  },
+  "homepage": "https://github.com/sjespersen/agent-present#readme",
+  "bugs": {
+    "url": "https://github.com/sjespersen/agent-present/issues"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

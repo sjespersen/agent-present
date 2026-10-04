@@ -3816,6 +3816,11 @@ var Explorer = class {
     lines.push(border("\u2570") + footer + border("\u2500".repeat(Math.max(0, width - 2 - visibleWidth(footer) - visibleWidth(pos)))) + pos + border("\u256F"));
     return lines.map((l) => truncate(l, width));
   }
+  /** Opens on the block an "expand" action points at. */
+  reveal(blockId) {
+    const block2 = this.doc.blocks.find((b) => b.id === blockId);
+    this.jumpTo((block2?.title ?? (block2?.type === "evidence" ? block2.claim : "")).toUpperCase());
+  }
   jumpTo(heading, depth = "explore") {
     this.raw = false;
     this.depth = depth;
@@ -3892,8 +3897,7 @@ var Explorer = class {
         if (n >= 1 && n <= 9 && this.doc.actions[n - 1]) {
           const action2 = this.doc.actions[n - 1];
           if (action2.intent === "expand" && action2.target) {
-            const block2 = this.doc.blocks.find((b) => b.id === action2.target);
-            this.jumpTo((block2?.title ?? (block2?.type === "evidence" ? block2.claim : "")).toUpperCase());
+            this.reveal(action2.target);
           } else if (action2.intent === "copy") {
             void this.copy(action2.value ?? action2.label).then(() => {
               this.status = `copied ${action2.label.toLowerCase()}`;
@@ -4055,7 +4059,9 @@ ${warnings.join("\n")}` : text2 }],
     pi.appendEntry(PRESENTATION_ENTRY, { document: raw });
   };
   const runAction = async (action2, ctx) => {
-    if (action2.intent === "agent") {
+    if (action2.intent === "expand") {
+      await openExplorer(ctx, { target: action2.target });
+    } else if (action2.intent === "agent") {
       const prompt = action2.prompt ?? action2.label;
       if (ctx.isIdle()) pi.sendUserMessage(prompt);
       else pi.sendUserMessage(prompt, { deliverAs: "followUp" });
@@ -4067,7 +4073,7 @@ ${warnings.join("\n")}` : text2 }],
       if (ctx.hasUI) ctx.ui.notify(`Copied ${action2.label}`, "info");
     }
   };
-  const openExplorer = async (ctx, startRaw = false) => {
+  const openExplorer = async (ctx, start = {}) => {
     if (!last) {
       if (ctx.hasUI) ctx.ui.notify("No presentation yet. Try /present demo", "warning");
       return;
@@ -4088,7 +4094,8 @@ ${warnings.join("\n")}` : text2 }],
           done,
           (text2) => copyToClipboard(text2)
         );
-        if (startRaw) explorer.handleInput("r");
+        if (start.raw) explorer.handleInput("r");
+        if (start.target) explorer.reveal(start.target);
         return explorer;
       },
       { overlay: true, overlayOptions: { width: "92%", maxHeight: "92%", anchor: "center" } }
@@ -4180,7 +4187,7 @@ ${warnings.join("\n")}` : text2 }],
         case "explore":
           return openExplorer(ctx);
         case "raw":
-          return openExplorer(ctx, true);
+          return openExplorer(ctx, { raw: true });
         case "act": {
           const n = Number.parseInt(rest[0] ?? "", 10);
           const action2 = last?.doc.actions.find((a, i) => a.id === rest[0] || i === n - 1);

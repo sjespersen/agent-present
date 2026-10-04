@@ -61,12 +61,18 @@ Explorer keys: `enter` cycle depth · `d` details · `e` evidence · `s` sources
 | `/present auto` (or `on`) | The agent presents when structure helps. Default. |
 | `/present always` | Every substantive answer becomes a presentation. |
 | `/present off` | Disable the tool; plain text only. |
-| `/present last` | **Compatibility mode:** convert the previous plain-text answer into a presentation with one model call. |
+| `/present last` | **Compatibility mode:** convert the previous plain-text answer into a presentation with one model call. Adoption doesn't require changing your agent. |
 | `/present demo [name\|all]` | Show the showcases: `repo-review`, `architecture`, `comparison`, `debugging`, `research`, `timeline`, `progress`. |
 | `/present view` · `/present raw` | Open the explorer (on the raw IR). |
 | `/present act <n>` | Run action *n* of the last presentation, e.g. send "Fix the migration" back to the agent. |
 
 Modes persist per session.
+
+<details><summary>Compatibility mode, live: a 200-word prose answer about HTTP caching, converted by <code>/present last</code></summary>
+
+![/present last in Pi](gallery/pi-last.png)
+
+</details>
 
 ### No duplicate answers
 
@@ -201,7 +207,7 @@ Under the hood the terminal renderer includes a layered graph layout with orthog
 
 ## Testing "don't make me read"
 
-`npm test` runs 91 tests. Beyond the usual unit tests:
+`npm test` runs 93 tests. Beyond the usual unit tests:
 
 - Every example renders at 40–160 columns, at every depth, in Unicode and ASCII, without a single line exceeding the width.
 - ASCII mode emits only ASCII. Monochrome output keeps meaning through glyphs.

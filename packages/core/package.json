@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/core",
   "version": "0.1.0",
-  "description": "Present IR: the semantic presentation specification for AI agents — types, JSON Schema, validation and normalization.",
+  "description": "Present IR: the semantic presentation specification for AI agents \u2014 types, JSON Schema, validation and normalization.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -12,10 +12,32 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "sideEffects": false,
-  "keywords": ["agent", "ai", "presentation", "llm", "present-ir", "infographic"],
+  "keywords": [
+    "agent",
+    "ai",
+    "presentation",
+    "llm",
+    "present-ir",
+    "infographic"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjespersen/agent-present.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/sjespersen/agent-present#readme",
+  "bugs": {
+    "url": "https://github.com/sjespersen/agent-present/issues"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -161,6 +161,23 @@ describe("/present command", () => {
     expect(f.userMessages[0].text).toContain("Fix the users migration");
   });
 
+  it("/present act on an expand action opens the explorer at the target block", async () => {
+    const f = fakePi();
+    await f.commands.get("present").handler("demo repo-review", f.ctx);
+    let rendered = "";
+    f.ctx.ui.custom.mockImplementation(async (factory: any) => {
+      const tui = { terminal: { rows: 40 }, requestRender: () => {} };
+      const explorer = factory(tui, { ...theme, fg: (_c: string, t: string) => t }, {}, () => {});
+      rendered = stripAnsi(explorer.render(110).join("\n"));
+      return undefined;
+    });
+    await f.commands.get("present").handler("act explain", f.ctx);
+    expect(f.ctx.ui.custom).toHaveBeenCalledTimes(1);
+    expect(rendered).toContain("EXPLORE");
+    expect(rendered).toContain("WHY THE MIGRATION");
+    expect(f.userMessages).toHaveLength(0);
+  });
+
   it("shows demos as TUI-only entries", async () => {
     const f = fakePi();
     await f.commands.get("present").handler("demo comparison", f.ctx);

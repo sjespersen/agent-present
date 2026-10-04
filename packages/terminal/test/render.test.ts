@@ -94,6 +94,16 @@ describe("progressive disclosure", () => {
     expect(explore).toContain("SPOKEN SUMMARY");
   });
 
+  it("clamps over-long verdict and takeaway text instead of printing paragraphs", () => {
+    // seen in a live run: the model put a paragraph into verdict.detail
+    const detail = "Use tenant_id plus composite indexes. ".repeat(8);
+    const doc = { takeaway: { text: "Choose PostgreSQL", detail }, blocks: [{ type: "verdict", text: "Use PostgreSQL", detail, next: detail }] };
+    const glance = renderPlainText(doc, { width: 80, depth: "glance" });
+    expect(glance.split("\n").length).toBeLessThanOrEqual(10);
+    expect(glance).toContain("…");
+    expect(renderPlainText(doc, { width: 80, depth: "explore" }).split("\n").length).toBeGreaterThan(10);
+  });
+
   it("long text collapses at a glance", () => {
     const long = "word ".repeat(120);
     const glance = renderPlainText({ blocks: [{ type: "text", text: long }] }, { depth: "glance" });

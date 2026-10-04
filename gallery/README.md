@@ -14,3 +14,4 @@ Generated from [`examples/`](../examples) with `npm run gallery` (renderer scree
 | `repo-review-{scan,narrow,wide,ascii}.png` | the same document at different depths, widths and character sets |
 | `before-after-*.png` | conventional prose answer vs. presentation, same facts |
 | `pi-*.png` | inside Pi: glance, scan (`ctrl+o`) and the explorer (`alt+e`) |
+| `pi-last.png` | `/present last` converting a real, unedited prose answer (live model) |

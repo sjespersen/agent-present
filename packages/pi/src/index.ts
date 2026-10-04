@@ -205,7 +205,9 @@ export default function agentPresent(pi: ExtensionAPI): void {
   // ─── explorer & actions ───────────────────────────────────────────────────
 
   const runAction = async (action: Action, ctx: ExtensionContext) => {
-    if (action.intent === "agent") {
+    if (action.intent === "expand") {
+      await openExplorer(ctx, { target: action.target });
+    } else if (action.intent === "agent") {
       const prompt = action.prompt ?? action.label;
       if (ctx.isIdle()) pi.sendUserMessage(prompt);
       else pi.sendUserMessage(prompt, { deliverAs: "followUp" });
@@ -218,7 +220,7 @@ export default function agentPresent(pi: ExtensionAPI): void {
     }
   };
 
-  const openExplorer = async (ctx: ExtensionContext, startRaw = false) => {
+  const openExplorer = async (ctx: ExtensionContext, start: { raw?: boolean; target?: string } = {}) => {
     if (!last) {
       if (ctx.hasUI) ctx.ui.notify("No presentation yet. Try /present demo", "warning");
       return;
@@ -239,7 +241,8 @@ export default function agentPresent(pi: ExtensionAPI): void {
           done,
           (text) => copyToClipboard(text),
         );
-        if (startRaw) explorer.handleInput("r");
+        if (start.raw) explorer.handleInput("r");
+        if (start.target) explorer.reveal(start.target);
         return explorer;
       },
       { overlay: true, overlayOptions: { width: "92%", maxHeight: "92%", anchor: "center" } },
@@ -346,7 +349,7 @@ export default function agentPresent(pi: ExtensionAPI): void {
         case "explore":
           return openExplorer(ctx);
         case "raw":
-          return openExplorer(ctx, true);
+          return openExplorer(ctx, { raw: true });
         case "act": {
           const n = Number.parseInt(rest[0] ?? "", 10);
           const action = last?.doc.actions.find((a, i) => a.id === rest[0] || i === n - 1);

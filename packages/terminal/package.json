@@ -34,5 +34,17 @@
   },
   "bin": {
     "present-render": "./dist/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjespersen/agent-present.git",
+    "directory": "packages/terminal"
+  },
+  "homepage": "https://github.com/sjespersen/agent-present#readme",
+  "bugs": {
+    "url": "https://github.com/sjespersen/agent-present/issues"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
