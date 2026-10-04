@@ -56,8 +56,9 @@ export function validate(input: unknown): ValidationResult {
       }
       check(schema, block, path, errors);
     });
-    if (blocks.length > 5) {
-      warnings.push({ path: "blocks", message: `${blocks.length} blocks exceeds the glance budget of 5; lower-priority blocks will collapse` });
+    const glance = blocks.filter((b) => !isRecord(b) || (b.priority !== "secondary" && b.priority !== "detail")).length;
+    if (glance > 5) {
+      warnings.push({ path: "blocks", message: `${glance} glance blocks exceed the budget of 5; mark extras priority "secondary" or they will collapse` });
     }
   }
 

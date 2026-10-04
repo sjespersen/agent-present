@@ -1,0 +1,37 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "hierarchy",
+      "root": {
+        "label": "Platform",
+        "children": [
+          {
+            "label": "Identity",
+            "children": [
+              {
+                "label": "Authentication"
+              },
+              {
+                "label": "Authorization"
+              }
+            ]
+          },
+          {
+            "label": "Commerce",
+            "children": [
+              {
+                "label": "Cart"
+              },
+              {
+                "label": "Checkout",
+                "status": "warning",
+                "note": "flaky"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

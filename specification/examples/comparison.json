@@ -1,0 +1,49 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "comparison",
+      "options": [
+        {
+          "id": "strix",
+          "label": "Strix Halo",
+          "summary": "big models"
+        },
+        {
+          "id": "rtx",
+          "label": "RTX 5090",
+          "summary": "speed"
+        }
+      ],
+      "dimensions": [
+        {
+          "label": "Memory",
+          "unit": "GB",
+          "values": [
+            128,
+            32
+          ]
+        },
+        {
+          "label": "Speed",
+          "unit": "tok/s",
+          "values": [
+            32,
+            81
+          ]
+        },
+        {
+          "label": "Power",
+          "unit": "W",
+          "better": "lower",
+          "values": [
+            120,
+            575
+          ]
+        }
+      ],
+      "winner": "strix",
+      "rationale": "Fits 70B models"
+    }
+  ]
+}

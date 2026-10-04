@@ -1,0 +1,27 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "change",
+      "files": [
+        {
+          "path": "src/auth/session.ts",
+          "added": 42,
+          "removed": 17,
+          "risk": "high"
+        },
+        {
+          "path": "src/web/login.tsx",
+          "added": 18,
+          "removed": 8,
+          "risk": "medium"
+        },
+        {
+          "path": "tests/auth.test.ts",
+          "added": 63,
+          "risk": "low"
+        }
+      ]
+    }
+  ]
+}

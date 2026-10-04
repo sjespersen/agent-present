@@ -1,0 +1,30 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "timeline",
+      "events": [
+        {
+          "at": "09:14",
+          "label": "deploy"
+        },
+        {
+          "at": "09:16",
+          "label": "errors",
+          "status": "critical",
+          "note": "auth failures begin"
+        },
+        {
+          "at": "09:18",
+          "label": "rollback",
+          "status": "warning"
+        },
+        {
+          "at": "09:21",
+          "label": "stable",
+          "status": "good"
+        }
+      ]
+    }
+  ]
+}

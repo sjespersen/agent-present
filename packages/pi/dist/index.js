@@ -374,8 +374,9 @@ function validate(input) {
       }
       check(schema, block2, path, errors);
     });
-    if (blocks.length > 5) {
-      warnings.push({ path: "blocks", message: `${blocks.length} blocks exceeds the glance budget of 5; lower-priority blocks will collapse` });
+    const glance = blocks.filter((b) => !isRecord(b) || b.priority !== "secondary" && b.priority !== "detail").length;
+    if (glance > 5) {
+      warnings.push({ path: "blocks", message: `${glance} glance blocks exceed the budget of 5; mark extras priority "secondary" or they will collapse` });
     }
   }
   return { valid: errors.length === 0, errors, warnings };
@@ -2270,7 +2271,7 @@ var FONT = {
   "7": ["###", "..#", "..#", "..#", "..#"],
   "8": ["###", "#.#", "###", "#.#", "###"],
   "9": ["###", "#.#", "###", "..#", "###"],
-  "%": ["#.#", "..#", ".#.", "#..", "#.#"],
+  "%": ["##.#", "##.#", "..#.", ".#..", "#.##", "#.##"],
   ".": [".", ".", ".", ".", "#"],
   ",": [".", ".", ".", ".", "#"],
   "-": ["...", "...", "###", "...", "..."],
@@ -2501,7 +2502,7 @@ function renderLayered(nodes, edges, options) {
   nodes.forEach((n, i) => {
     const label = nodeLabel(n, g, labelMax);
     const boxed = isBoxed(n);
-    const w = boxed ? oddUp(visibleWidth(label) + 4) : visibleWidth(label);
+    const w = boxed ? visibleWidth(label) + 4 : visibleWidth(label);
     const ln = {
       id: n.id,
       label,
@@ -2677,9 +2678,6 @@ function renderLayered(nodes, edges, options) {
 function dummyRole(n, segments) {
   const seg = segments.find((s) => s.to === n || s.from === n);
   return seg ? edgeRole(seg.edge) : "dim";
-}
-function oddUp(n) {
-  return n % 2 === 0 ? n + 1 : n;
 }
 function placeLayer(layer, desired, spacing) {
   if (!layer.length) return;

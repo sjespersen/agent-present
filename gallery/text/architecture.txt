@@ -3,31 +3,31 @@ AUTHENTICATION ━━━━━━━━━━━━━━━━━━━━━�
 ▌ ▲ SESSIONS LIVE 30 DAYS WITH NO ROTATION
 ▌ Everything else follows best practice
 
-                                         browser
-                                            │
-                                       POST /login
-                                            │
-                                            ▼
-                                         ┌─────┐
-                                         │ API │
-                                         └──┬──┘
-                                            │
-                                     ┌──────┴──────┐
-                                     ▼             ▼
-                               ┌───────────┐   ┌───────┐
-                               │ password  │   │ OAuth │
-                               └─────┬─────┘   └───┬───┘
-                                     │             │
-                                     └──────┬──────┘
-                                            ▼
-                                      ┌───────────┐
-                                      │ ▲ Session │  30d, no rotation
-                                      └─────┬─────┘
-                                            │
-                                      signed cookie
-                                            │
-                                            ▼
-                                           USER
+                                        browser
+                                           │
+                                      POST /login
+                                           │
+                                           ▼
+                                        ┌─────┐
+                                        │ API │
+                                        └──┬──┘
+                                           │
+                                    ┌──────┴──────┐
+                                    ▼             ▼
+                               ┌──────────┐   ┌───────┐
+                               │ password │   │ OAuth │
+                               └────┬─────┘   └───┬───┘
+                                    │             │
+                                    └──────┬──────┘
+                                           ▼
+                                     ┌───────────┐
+                                     │ ▲ Session │  30d, no rotation
+                                     └─────┬─────┘
+                                           │
+                                     signed cookie
+                                           │
+                                           ▼
+                                          USER
 
 TRUST BOUNDARY
 ──────────────────────────────────────────────

@@ -1,0 +1,24 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "evidence",
+      "claim": "Auth failures began after migration 182.",
+      "confidence": "high",
+      "items": [
+        {
+          "label": "migration deployed",
+          "value": "09:16"
+        },
+        {
+          "label": "failures begin",
+          "value": "09:16"
+        },
+        {
+          "label": "rollback",
+          "value": "09:21"
+        }
+      ]
+    }
+  ]
+}

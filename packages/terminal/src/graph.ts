@@ -266,7 +266,7 @@ function renderLayered(nodes: GraphNode[], edges: GraphEdge[], options: GraphOpt
   nodes.forEach((n, i) => {
     const label = nodeLabel(n, g, labelMax);
     const boxed = isBoxed(n);
-    const w = boxed ? oddUp(visibleWidth(label) + 4) : visibleWidth(label);
+    const w = boxed ? visibleWidth(label) + 4 : visibleWidth(label);
     const ln: LNode = {
       id: n.id,
       label,
@@ -457,10 +457,6 @@ function renderLayered(nodes: GraphNode[], edges: GraphEdge[], options: GraphOpt
 function dummyRole(n: LNode, segments: Segment[]): Role {
   const seg = segments.find((s) => s.to === n || s.from === n);
   return seg ? edgeRole(seg.edge) : "dim";
-}
-
-function oddUp(n: number): number {
-  return n % 2 === 0 ? n + 1 : n;
 }
 
 /**

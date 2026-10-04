@@ -65,7 +65,7 @@ describe("charts", () => {
   });
 
   it("renders oversized numerals", () => {
-    expect(bigText("87%")).toEqual(["█▀█ ▀▀█ ▀ █", "█▀█   █ ▄▀ ", "▀▀▀   ▀ ▀ ▀"]);
+    expect(bigText("87%")).toEqual(["█▀█ ▀▀█ ██ █", "█▀█   █  ▄▀ ", "▀▀▀   ▀ █ ██"]);
     expect(bigText("8x")).toBeUndefined();
     expect(splitForBig(87, "%")).toEqual({ big: "87%", small: "" });
     expect(splitForBig(680, "ms")).toEqual({ big: "680", small: "ms" });

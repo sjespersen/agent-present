@@ -1,0 +1,9 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "text",
+      "text": "Text remains available, but it has to earn its place. Long Markdown belongs in `detail`, behind progressive disclosure."
+    }
+  ]
+}

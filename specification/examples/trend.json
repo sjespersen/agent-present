@@ -1,0 +1,33 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "trend",
+      "label": "p95 latency",
+      "unit": "ms",
+      "series": [
+        {
+          "values": [
+            100,
+            104,
+            98,
+            180,
+            300,
+            420,
+            610,
+            680
+          ]
+        }
+      ],
+      "xLabels": [
+        "09",
+        "10",
+        "11",
+        "12"
+      ],
+      "threshold": 300,
+      "annotation": "deploy",
+      "status": "critical"
+    }
+  ]
+}

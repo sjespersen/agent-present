@@ -1,0 +1,25 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "risk",
+      "items": [
+        {
+          "label": "release blocker",
+          "impact": "high",
+          "likelihood": "high"
+        },
+        {
+          "label": "payment retries",
+          "impact": "high",
+          "likelihood": "medium"
+        },
+        {
+          "label": "minor issues",
+          "impact": "medium",
+          "likelihood": "low"
+        }
+      ]
+    }
+  ]
+}

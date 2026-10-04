@@ -1,0 +1,65 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "architecture",
+      "nodes": [
+        {
+          "id": "user",
+          "label": "user",
+          "kind": "actor"
+        },
+        {
+          "id": "web",
+          "label": "Web app"
+        },
+        {
+          "id": "auth",
+          "label": "Auth"
+        },
+        {
+          "id": "orders",
+          "label": "Orders"
+        },
+        {
+          "id": "bus",
+          "label": "Event bus"
+        }
+      ],
+      "edges": [
+        {
+          "from": "user",
+          "to": "web"
+        },
+        {
+          "from": "web",
+          "to": "auth"
+        },
+        {
+          "from": "web",
+          "to": "orders"
+        },
+        {
+          "from": "auth",
+          "to": "bus"
+        },
+        {
+          "from": "orders",
+          "to": "bus"
+        }
+      ],
+      "boundaries": [
+        {
+          "label": "user",
+          "note": "untrusted",
+          "status": "critical"
+        },
+        {
+          "label": "event bus",
+          "note": "internal only",
+          "status": "good"
+        }
+      ]
+    }
+  ]
+}

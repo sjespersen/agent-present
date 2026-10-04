@@ -1,0 +1,29 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "metrics",
+      "items": [
+        {
+          "label": "files",
+          "value": 81
+        },
+        {
+          "label": "tests",
+          "value": 435
+        },
+        {
+          "label": "coverage",
+          "value": 87,
+          "unit": "%",
+          "status": "good"
+        },
+        {
+          "label": "risk",
+          "value": "HIGH",
+          "status": "critical"
+        }
+      ]
+    }
+  ]
+}

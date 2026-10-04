@@ -1,0 +1,28 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "distribution",
+      "title": "Token usage",
+      "items": [
+        {
+          "label": "Code analysis",
+          "value": 43
+        },
+        {
+          "label": "Tool output",
+          "value": 22
+        },
+        {
+          "label": "Reasoning",
+          "value": 18
+        },
+        {
+          "label": "Conversation",
+          "value": 17
+        }
+      ],
+      "unit": "%"
+    }
+  ]
+}

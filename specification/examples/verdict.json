@@ -1,0 +1,13 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "verdict",
+      "text": "Don't ship yet",
+      "status": "critical",
+      "detail": "2 blockers",
+      "next": "Fix the migration first",
+      "command": "pnpm db:migrate"
+    }
+  ]
+}

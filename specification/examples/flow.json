@@ -1,0 +1,51 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "flow",
+      "nodes": [
+        {
+          "id": "api",
+          "label": "API"
+        },
+        {
+          "id": "auth",
+          "label": "Auth"
+        },
+        {
+          "id": "policy",
+          "label": "Policy"
+        },
+        {
+          "id": "allow",
+          "label": "ALLOW",
+          "kind": "outcome"
+        },
+        {
+          "id": "deny",
+          "label": "DENY",
+          "kind": "outcome",
+          "status": "critical"
+        }
+      ],
+      "edges": [
+        {
+          "from": "api",
+          "to": "auth"
+        },
+        {
+          "from": "auth",
+          "to": "policy"
+        },
+        {
+          "from": "policy",
+          "to": "allow"
+        },
+        {
+          "from": "policy",
+          "to": "deny"
+        }
+      ]
+    }
+  ]
+}

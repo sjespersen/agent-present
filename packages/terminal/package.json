@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/terminal",
   "version": "0.1.0",
-  "description": "Responsive terminal renderer for Present IR: verdicts, charts, flows, risk maps and more — in Unicode or plain ASCII.",
+  "description": "Responsive terminal renderer for Present IR: verdicts, charts, flows, risk maps and more \u2014 in Unicode or plain ASCII.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -12,13 +12,27 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "sideEffects": false,
-  "keywords": ["agent", "terminal", "tui", "infographic", "present-ir", "ascii", "charts"],
+  "keywords": [
+    "agent",
+    "terminal",
+    "tui",
+    "infographic",
+    "present-ir",
+    "ascii",
+    "charts"
+  ],
   "dependencies": {
     "@agent-present/core": "0.1.0"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
+  },
+  "bin": {
+    "present-render": "./dist/cli.js"
   }
 }

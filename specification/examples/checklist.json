@@ -1,0 +1,28 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "checklist",
+      "title": "Release",
+      "items": [
+        {
+          "label": "tests",
+          "state": "done"
+        },
+        {
+          "label": "lint",
+          "state": "done"
+        },
+        {
+          "label": "migration",
+          "state": "failed",
+          "note": "not applied"
+        },
+        {
+          "label": "smoke test",
+          "state": "pending"
+        }
+      ]
+    }
+  ]
+}

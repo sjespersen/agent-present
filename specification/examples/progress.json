@@ -1,0 +1,24 @@
+{
+  "present": "0.1",
+  "blocks": [
+    {
+      "type": "progress",
+      "items": [
+        {
+          "label": "files",
+          "value": 64,
+          "total": 81
+        },
+        {
+          "label": "tests",
+          "state": "done"
+        }
+      ],
+      "signal": {
+        "label": "auth migration",
+        "value": "high risk",
+        "status": "critical"
+      }
+    }
+  ]
+}
