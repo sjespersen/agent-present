@@ -4,21 +4,25 @@
   "description": "Agent Present for Pi: the agent answers with native terminal infographics instead of walls of text. Don't make me read.",
   "type": "module",
   "license": "MIT",
-  "keywords": ["pi-package", "pi-extension", "agent", "presentation", "infographic", "tui"],
-  "files": ["dist", "README.md"],
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "agent",
+    "presentation",
+    "infographic",
+    "tui"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "pi": {
-    "extensions": ["./dist/index.js"]
+    "extensions": [
+      "./dist/index.js"
+    ]
   },
   "scripts": {
     "build": "node build.mjs"
-  },
-  "peerDependencies": {
-    "@earendil-works/pi-coding-agent": "*",
-    "@earendil-works/pi-tui": "*"
-  },
-  "peerDependenciesMeta": {
-    "@earendil-works/pi-coding-agent": { "optional": true },
-    "@earendil-works/pi-tui": { "optional": true }
   },
   "devDependencies": {
     "@agent-present/core": "0.1.0",
