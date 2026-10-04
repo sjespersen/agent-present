@@ -133,7 +133,7 @@ function hero(doc: NormalizedDocument, ctx: RenderContext): string[] {
         const glyph = t.status && t.status !== "neutral" && t.status !== "info" ? `${mark(ctx, t.status)} ` : "";
         const right: string[] = [];
         right.push(glyph + style.bold(style.fg(role, truncate(t.text.length <= 42 ? t.text.toUpperCase() : t.text, rightWidth - 2))));
-        right.push(t.detail ? style.fg("muted", truncate(t.detail, rightWidth)) : "");
+        right.push(t.detail ? style.fg("muted", truncate(t.detail, rightWidth, g.ellipsis)) : "");
         const numeric = typeof t.value === "number" ? t.value : Number.NaN;
         if (t.unit === "%" && Number.isFinite(numeric)) {
           right.push(bar(numeric / 100, Math.min(44, rightWidth), g, style, role, "dim"));

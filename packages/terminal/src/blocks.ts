@@ -111,6 +111,16 @@ function shout(text: string): string {
   return text.length <= 42 ? text.toUpperCase() : text;
 }
 
+/** Wraps text and clamps it to `max` lines, ending in an ellipsis when cut. */
+export function clampWrap(text: string, width: number, max: number, ellipsis: string): string[] {
+  const lines = wrap(text, width);
+  if (lines.length <= max) return lines;
+  const kept = lines.slice(0, max);
+  kept[max - 1] = truncate(`${kept[max - 1]} ${lines[max]}`, width, ellipsis);
+  if (!kept[max - 1].endsWith(ellipsis)) kept[max - 1] = truncate(kept[max - 1], width - 1, "") + ellipsis;
+  return kept;
+}
+
 export function verdictLines(
   ctx: RenderContext,
   textValue: string,
@@ -118,17 +128,18 @@ export function verdictLines(
   rest: { detail?: string; next?: string; command?: string },
 ): string[] {
   const { style, glyphs: g, width } = ctx;
+  const limit = (glance: number, scan: number) => (ctx.depth === "explore" ? Infinity : ctx.depth === "scan" ? scan : glance);
   const role = status ? statusRole(status) : "accent";
   const barGlyph = style.fg(role, g.accentBar);
   const glyph = status && status !== "neutral" && status !== "info" ? `${mark(ctx, status)} ` : "";
   const inner = width - 2 - (glyph ? 2 : 0);
   const lines: string[] = [];
-  wrap(shout(textValue), inner).forEach((line, i) =>
+  clampWrap(shout(textValue), inner, limit(2, 3), g.ellipsis).forEach((line, i) =>
     lines.push(`${barGlyph} ${i === 0 ? glyph : glyph ? "  " : ""}${style.bold(style.fg(role, line))}`),
   );
-  if (rest.detail) for (const line of wrap(rest.detail, width - 2)) lines.push(`${barGlyph} ${style.fg("muted", line)}`);
+  if (rest.detail) for (const line of clampWrap(rest.detail, width - 2, limit(1, 2), g.ellipsis)) lines.push(`${barGlyph} ${style.fg("muted", line)}`);
   if (rest.next) {
-    const nextLines = wrap(rest.next, width - 4);
+    const nextLines = clampWrap(rest.next, width - 4, limit(2, 3), g.ellipsis);
     nextLines.forEach((line, i) => lines.push(`${barGlyph} ${i === 0 ? style.fg(role, g.arrowRight) : " "} ${style.fg("text", line)}`));
   }
   if (rest.command) lines.push(`${barGlyph} ${style.fg("accent", truncate(`$ ${rest.command}`, width - 2))}`);
@@ -214,7 +225,9 @@ function comparison(b: ComparisonBlock, ctx: RenderContext): string[] {
   const n = b.options.length;
   const winnerIndex = b.options.findIndex((o) => o.id === b.winner);
   const dims = b.dimensions.map((d) => ({ ...d, values: d.values as CompValue[] }));
-  const labelCol = Math.min(14, Math.max(8, ...dims.map((d) => d.label.length + 2), b.options.some((o) => o.summary) ? 10 : 0));
+  const longestWord = Math.max(...dims.map((d) => Math.max(...d.label.split(/\s+/).map((w) => w.length))));
+  const labelCol = Math.min(Math.max(14, Math.floor(width * 0.2)), Math.max(10, longestWord + 2, ...dims.map((d) => Math.ceil(d.label.length / 2) + 3)));
+  const labelLines = (label: string) => clampWrap(label.toUpperCase(), labelCol - 2, 2, g.ellipsis);
   const colWidth = Math.floor((width - labelCol) / Math.max(1, n));
   const bestIndex = (d: (typeof dims)[number]) => {
     const nums = d.values.map((v) => v.value);
@@ -237,7 +250,8 @@ function comparison(b: ComparisonBlock, ctx: RenderContext): string[] {
       const numbers = d.values.map((v) => v.value ?? 0);
       const max = Math.max(...numbers.map(Math.abs), 0) || 1;
       const hasNumbers = d.values.some((v) => v.value !== undefined);
-      const label = style.fg("muted", fit(d.label.toUpperCase(), labelCol));
+      const [label1, label2 = ""] = labelLines(d.label).map((l) => style.fg("muted", fit(l, labelCol)));
+      const label = label1;
       if (hasNumbers) {
         const bars = d.values.map((v, i) =>
           padEnd(bar(Math.abs(v.value ?? 0) / max, barWidth, g, style, i === winnerIndex ? "accent" : "dim", "dim", false), colWidth),
@@ -249,18 +263,24 @@ function comparison(b: ComparisonBlock, ctx: RenderContext): string[] {
           const txt = i === winnerIndex ? style.fg("strong", t) : style.fg("muted", t);
           return padEnd(txt + (isBest ? " " + style.fg("good", g.best) : ""), colWidth);
         });
-        lines.push((" ".repeat(labelCol) + values.join("")).replace(/\s+$/, ""));
+        lines.push(((label2 || " ".repeat(labelCol)) + values.join("")).replace(/\s+$/, ""));
       } else {
-        const values = d.values.map((v, i) => padEnd(i === winnerIndex ? style.fg("strong", valueText(v)) : style.fg("muted", valueText(v)), colWidth));
+        const values = d.values.map((v, i) => padEnd(i === winnerIndex ? style.fg("strong", truncate(valueText(v), colWidth - 2)) : style.fg("muted", truncate(valueText(v), colWidth - 2)), colWidth));
         lines.push((label + values.join("")).replace(/\s+$/, ""));
+        if (label2) lines.push(label2.replace(/\s+$/, ""));
       }
     }
     if (b.options.some((o) => o.summary)) {
-      const row = b.options.map((o, i) => {
-        const s = truncate((o.summary ?? "").toUpperCase(), colWidth - 2);
-        return padEnd(i === winnerIndex ? style.bold(style.fg("good", s)) : style.fg("muted", s), colWidth);
-      });
-      lines.push((style.fg("muted", fit("BEST FOR", labelCol)) + row.join("")).replace(/\s+$/, ""));
+      const short = b.options.every((o) => (o.summary ?? "").length <= colWidth - 2);
+      const wrapped = b.options.map((o) => clampWrap(short ? (o.summary ?? "").toUpperCase() : o.summary ?? "", colWidth - 2, 2, g.ellipsis));
+      const rows = Math.max(...wrapped.map((w) => w.length));
+      for (let r = 0; r < rows; r++) {
+        const row = wrapped.map((w, i) => {
+          const s = w[r] ?? "";
+          return padEnd(i === winnerIndex ? style.bold(style.fg("good", s)) : style.fg("muted", s), colWidth);
+        });
+        lines.push((style.fg("muted", fit(r === 0 ? "BEST FOR" : "", labelCol)) + row.join("")).replace(/\s+$/, ""));
+      }
     }
     if (winnerIndex >= 0) {
       const offset = labelCol + winnerIndex * colWidth;
