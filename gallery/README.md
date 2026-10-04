@@ -15,3 +15,4 @@ Generated from [`examples/`](../examples) with `npm run gallery` (renderer scree
 | `before-after-*.png` | conventional prose answer vs. presentation, same facts |
 | `pi-*.png` | inside Pi: glance, scan (`ctrl+o`) and the explorer (`alt+e`) |
 | `pi-last.png` | `/present last` converting a real, unedited prose answer (live model) |
+| `pi-demo-*.png` | every showcase via `/present demo <name>` inside the real Pi TUI |
