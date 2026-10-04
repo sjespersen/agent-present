@@ -289,7 +289,7 @@ var action = obj(
   ["id", "label", "intent"]
 );
 var documentProperties = {
-  present: str("Present IR version, '0.1'"),
+  present: str("Present spec version, '0.1'"),
   title: str("Short title, e.g. 'Release readiness'"),
   subtitle: str("e.g. 'v2.8.0'"),
   intent: en(INTENT_VALUES),
@@ -315,8 +315,8 @@ var documentProperties = {
 };
 var presentSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://agent-present.dev/schema/present-ir-0.1.json",
-  title: "Present IR 0.1",
+  $id: "https://agent-present.dev/schema/present-0.1.json",
+  title: "Present spec 0.1",
   description: "A semantic, renderer-independent description of how information should be presented to a human.",
   type: "object",
   properties: documentProperties,
@@ -1631,7 +1631,7 @@ var DEMOS = {
 
 // src/instructions.ts
 var TOOL_NAME = "present";
-var TOOL_DESCRIPTION = `Present a result to the user as a native visual presentation (Present IR) instead of prose. The presentation IS your answer: it is rendered in the user's terminal as an infographic. Do not repeat its content in text afterwards.
+var TOOL_DESCRIPTION = `Present a result to the user as a native visual presentation (a Present document) instead of prose. The presentation IS your answer: it is rendered in the user's terminal as an infographic. Do not repeat its content in text afterwards.
 
 Describe MEANING, not layout \u2014 the renderer decides widths, colours and borders.
 
@@ -1672,7 +1672,7 @@ var PROMPT_GUIDELINES = [
   'Call present with intent "progress" to show interim status during long work; finish with a final present call.'
 ];
 var ALWAYS_GUIDELINE = "Agent Present is in ALWAYS mode: deliver every substantive answer through the present tool. Plain text is only for trivial replies.";
-var TRANSFORM_SYSTEM_PROMPT = `You convert an AI agent's prose answer into a Present IR document so a human can understand it in ten seconds.
+var TRANSFORM_SYSTEM_PROMPT = `You convert an AI agent's prose answer into a Present document so a human can understand it in ten seconds.
 
 Rules:
 - Preserve the facts. Never invent numbers, files, names or conclusions that are not in the answer.
@@ -1693,7 +1693,7 @@ function extractJson(reply) {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 async function transformToPresent(answer, complete) {
-  const user = `Convert this agent answer into Present IR:
+  const user = `Convert this agent answer into a Present document:
 
 <answer>
 ${answer}
@@ -4114,7 +4114,7 @@ ${warnings.join("\n")}` : text2 }],
     { value: "last", description: "Convert the last plain-text answer into a presentation" },
     { value: "demo", description: "Show a showcase presentation" },
     { value: "view", description: "Explore the last presentation" },
-    { value: "raw", description: "Show the raw Present IR of the last presentation" },
+    { value: "raw", description: "Show the raw Present document of the last presentation" },
     { value: "act", description: "Run an action of the last presentation: /present act 1" }
   ];
   const setMode = (next, ctx) => {

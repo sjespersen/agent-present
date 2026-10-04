@@ -1,16 +1,16 @@
-# Present IR 0.1
+# Present spec 0.1
 
-**Status:** draft · **Schema:** [`present-ir.schema.json`](present-ir.schema.json) · **Primitives:** [index](primitives/INDEX.md)
+**Status:** draft · **Schema:** [`present.schema.json`](present.schema.json) · **Primitives:** [index](primitives/INDEX.md)
 
-Present IR is a declarative, JSON-serializable description of **how information should be communicated to a human**. It describes the *meaning* of a presentation — a verdict, a comparison, a causal chain, a risk — and leaves layout to renderers.
+The Present spec is a declarative, JSON-serializable description of **how information should be communicated to a human**. It describes the *meaning* of a presentation — a verdict, a comparison, a causal chain, a risk — and leaves layout to renderers.
 
 ```
-AG-UI       "How does the agent talk to the frontend?"
-A2UI        "Which UI components should the frontend render?"
-PRESENT IR  "How should this INFORMATION be communicated to a human?"
+AG-UI         "How does the agent talk to the frontend?"
+A2UI          "Which UI components should the frontend render?"
+PRESENT SPEC  "How should this INFORMATION be communicated to a human?"
 ```
 
-Present IR is not a transport and not a component catalogue. A Present document can travel over AG-UI, MCP or a plain tool call, and could be compiled into A2UI components. It sits one level higher: information semantics.
+The Present spec is not a transport and not a component catalogue. A Present document can travel over AG-UI, MCP or a plain tool call, and could be compiled into A2UI components. It sits one level higher: information semantics.
 
 ## Design rules
 

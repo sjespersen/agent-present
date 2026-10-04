@@ -6,7 +6,7 @@
 
 export const TOOL_NAME = "present";
 
-export const TOOL_DESCRIPTION = `Present a result to the user as a native visual presentation (Present IR) instead of prose. The presentation IS your answer: it is rendered in the user's terminal as an infographic. Do not repeat its content in text afterwards.
+export const TOOL_DESCRIPTION = `Present a result to the user as a native visual presentation (a Present document) instead of prose. The presentation IS your answer: it is rendered in the user's terminal as an infographic. Do not repeat its content in text afterwards.
 
 Describe MEANING, not layout — the renderer decides widths, colours and borders.
 
@@ -53,7 +53,7 @@ export const PROMPT_GUIDELINES = [
 export const ALWAYS_GUIDELINE =
   "Agent Present is in ALWAYS mode: deliver every substantive answer through the present tool. Plain text is only for trivial replies.";
 
-export const TRANSFORM_SYSTEM_PROMPT = `You convert an AI agent's prose answer into a Present IR document so a human can understand it in ten seconds.
+export const TRANSFORM_SYSTEM_PROMPT = `You convert an AI agent's prose answer into a Present document so a human can understand it in ten seconds.
 
 Rules:
 - Preserve the facts. Never invent numbers, files, names or conclusions that are not in the answer.

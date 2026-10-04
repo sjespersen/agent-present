@@ -265,7 +265,7 @@ export default function agentPresent(pi: ExtensionAPI): void {
     { value: "last", description: "Convert the last plain-text answer into a presentation" },
     { value: "demo", description: "Show a showcase presentation" },
     { value: "view", description: "Explore the last presentation" },
-    { value: "raw", description: "Show the raw Present IR of the last presentation" },
+    { value: "raw", description: "Show the raw Present document of the last presentation" },
     { value: "act", description: "Run an action of the last presentation: /present act 1" },
   ];
 

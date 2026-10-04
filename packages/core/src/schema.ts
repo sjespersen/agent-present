@@ -1,6 +1,6 @@
 /**
- * The Present IR 0.1 JSON Schema, authored as data so it can be used for runtime
- * validation, as LLM tool parameters, and emitted to specification/present-ir.schema.json.
+ * The Present spec 0.1 JSON Schema, authored as data so it can be used for runtime
+ * validation, as LLM tool parameters, and emitted to specification/present.schema.json.
  */
 
 export type JsonSchema = { [key: string]: unknown };
@@ -282,7 +282,7 @@ const action = obj(
 );
 
 const documentProperties: Record<string, JsonSchema> = {
-  present: str("Present IR version, '0.1'"),
+  present: str("Present spec version, '0.1'"),
   title: str("Short title, e.g. 'Release readiness'"),
   subtitle: str("e.g. 'v2.8.0'"),
   intent: en(INTENT_VALUES),
@@ -307,11 +307,11 @@ const documentProperties: Record<string, JsonSchema> = {
   speech: obj({ summary: str("Spoken one-to-two sentence briefing") }, ["summary"]),
 };
 
-/** The canonical Present IR document schema. */
+/** The canonical Present document schema. */
 export const presentSchema: JsonSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://agent-present.dev/schema/present-ir-0.1.json",
-  title: "Present IR 0.1",
+  $id: "https://agent-present.dev/schema/present-0.1.json",
+  title: "Present spec 0.1",
   description: "A semantic, renderer-independent description of how information should be presented to a human.",
   type: "object",
   properties: documentProperties,

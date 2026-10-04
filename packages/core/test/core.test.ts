@@ -54,8 +54,8 @@ describe("validate", () => {
 });
 
 describe("schema", () => {
-  it("is in sync with specification/present-ir.schema.json", () => {
-    const file = JSON.parse(readFileSync(new URL("../../../specification/present-ir.schema.json", import.meta.url), "utf8"));
+  it("is in sync with specification/present.schema.json", () => {
+    const file = JSON.parse(readFileSync(new URL("../../../specification/present.schema.json", import.meta.url), "utf8"));
     expect(file).toEqual(presentSchema);
   });
 

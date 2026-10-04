@@ -13,7 +13,7 @@ Agent Present lets an agent answer with **visual information structures instead 
 
 > **If information has structure, show the structure. Don't describe it.**
 
-It ships as an open specification (**Present IR**), a responsive terminal renderer, and a native extension for the [Pi](https://pi.dev) coding agent.
+It ships as an open specification (the **Present spec**), a responsive terminal renderer, and a native extension for the [Pi](https://pi.dev) coding agent.
 
 ## Before / after
 
@@ -102,12 +102,12 @@ A `present` call with `intent: "progress"` does not end the turn. It shows a liv
 There are good protocols for agents and interfaces already. None of them describes *information*.
 
 ```
-AG-UI       "How does the agent communicate with the frontend?"
-A2UI        "What UI components should the frontend render?"
-PRESENT IR  "How should this INFORMATION be communicated to a human?"
+AG-UI         "How does the agent communicate with the frontend?"
+A2UI          "What UI components should the frontend render?"
+PRESENT SPEC  "How should this INFORMATION be communicated to a human?"
 ```
 
-[AG-UI](https://github.com/ag-ui-protocol/ag-ui) is an event transport; a Present document can travel over it. [A2UI](https://github.com/google/A2UI) describes components from a trusted catalogue; Present IR could compile into it. Present IR sits one level higher. The agent says what something *means* — this is a comparison, this option wins, this edge is broken — and each renderer decides how that looks on a terminal, a web page, or in a voice briefing.
+[AG-UI](https://github.com/ag-ui-protocol/ag-ui) is an event transport; a Present document can travel over it. [A2UI](https://github.com/google/A2UI) describes components from a trusted catalogue; Present documents could compile into it. The Present spec sits one level higher. The agent says what something *means* — this is a comparison, this option wins, this edge is broken — and each renderer decides how that looks on a terminal, a web page, or in a voice briefing.
 
 ```json
 { "type": "comparison", "winner": "strix", "options": [], "dimensions": [] }
@@ -119,7 +119,7 @@ not
 { "type": "row", "children": [{ "type": "box", "width": 42 }] }
 ```
 
-## Present IR
+## The Present spec
 
 A Present document is a takeaway, a handful of semantic blocks, optional actions, and detail for later:
 
@@ -147,7 +147,7 @@ A Present document is a takeaway, a handful of semantic blocks, optional actions
 
 Sixteen primitives in v0.1: `verdict` `metric` `metrics` `comparison` `flow` `architecture` `timeline` `trend` `distribution` `risk` `hierarchy` `checklist` `evidence` `change` `progress` `text`.
 
-**→ [Read the specification](specification/README.md)** · [JSON Schema](specification/present-ir.schema.json) · [primitive reference with renders](specification/primitives/INDEX.md) · [canonical examples](examples/)
+**→ [Read the specification](specification/README.md)** · [JSON Schema](specification/present.schema.json) · [primitive reference with renders](specification/primitives/INDEX.md) · [canonical examples](examples/)
 
 ## Render anywhere
 
@@ -173,7 +173,7 @@ console.log(renderDocument(doc, { width: process.stdout.columns, depth: "glance"
 
 ## Build your own renderer
 
-Present IR is meant to have many renderers: web, mobile, voice, SVG. `@agent-present/core` gives you the parts that are not about pixels:
+The Present spec is meant to have many renderers: web, mobile, voice, SVG. `@agent-present/core` gives you the parts that are not about pixels:
 
 - `validate(doc)` checks against the schema and reports precise paths. Unknown block types are warnings, never errors.
 - `normalize(doc)` repairs sloppy agent output (status synonyms, `"87%"` strings, stringified arrays, aliased types, missing edges), assigns ids and priorities, and turns unknown blocks into textual fallbacks.
@@ -191,7 +191,7 @@ agent-present/
 │   ├── core/        @agent-present/core      types · JSON Schema · validation · normalization · semantics   (zero dependencies)
 │   ├── terminal/    @agent-present/terminal  layout · typography · charts · graph layout · themes · CLI     (depends on core)
 │   └── pi/          @agent-present/pi        Pi extension: present tool · renderer · explorer · commands · model instructions
-├── specification/   Present IR spec, JSON Schema, primitive reference, minimal examples
+├── specification/   Present spec, JSON Schema, primitive reference, minimal examples
 ├── examples/        canonical showcase documents (+ conventional "before" answers)
 ├── gallery/         screenshots and golden text renders
 └── scripts/         schema/spec generation, gallery, Pi TUI capture
@@ -236,7 +236,7 @@ npm run gallery      # regenerate PNG screenshots (needs Chrome/Chromium)
 v0.1 is a terminal-first proving ground: the spec, a validator, the terminal renderer and the Pi extension. Explicitly out of scope for now: browser renderer, MCP Apps, AG-UI transport, an A2UI compiler, other agent hosts, generated images, arbitrary HTML.
 
 ```
-                         PRESENT IR
+                        PRESENT SPEC
                               │
           ┌───────────────────┼────────────────────┐
           ▼                   ▼                    ▼

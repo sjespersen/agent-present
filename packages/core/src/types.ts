@@ -1,7 +1,7 @@
 /**
- * Present IR 0.1 — TypeScript types.
+ * Present spec 0.1 — TypeScript types.
  *
- * Present IR describes the *meaning* of a presentation (a verdict, a comparison,
+ * The Present spec describes the *meaning* of a presentation (a verdict, a comparison,
  * a flow, a risk) and leaves layout to renderers. Nothing in here is a width,
  * a colour or a border style.
  */

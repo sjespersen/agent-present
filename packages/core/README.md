@@ -1,6 +1,6 @@
 # @agent-present/core
 
-Present IR 0.1 for TypeScript: types, the JSON Schema, a validator, a lenient normalizer and semantic helpers. Zero dependencies, no rendering.
+Present spec 0.1 for TypeScript: types, the JSON Schema, a validator, a lenient normalizer and semantic helpers. Zero dependencies, no rendering.
 
 ```ts
 import { validate, normalize, deriveSpeech, outline, presentToolSchema } from "@agent-present/core";

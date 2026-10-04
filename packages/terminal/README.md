@@ -1,6 +1,6 @@
 # @agent-present/terminal
 
-The reference terminal renderer for Present IR. It is responsive (it adapts layouts rather than truncating), has an ASCII mode, keeps meaning in monochrome, and guarantees no line exceeds the width you give it.
+The reference terminal renderer for the Present spec. It is responsive (it adapts layouts rather than truncating), has an ASCII mode, keeps meaning in monochrome, and guarantees no line exceeds the width you give it.
 
 ```ts
 import { renderDocument, ansiStyle, plainStyle } from "@agent-present/terminal";

@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/core",
   "version": "0.1.0",
-  "description": "Present IR: the semantic presentation specification for AI agents \u2014 types, JSON Schema, validation and normalization.",
+  "description": "The Present spec for AI agents \u2014 types, JSON Schema, validation and normalization.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
     "ai",
     "presentation",
     "llm",
-    "present-ir",
+    "present-spec",
     "infographic"
   ],
   "scripts": {

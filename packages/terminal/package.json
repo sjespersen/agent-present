@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/terminal",
   "version": "0.1.0",
-  "description": "Responsive terminal renderer for Present IR: verdicts, charts, flows, risk maps and more \u2014 in Unicode or plain ASCII.",
+  "description": "Responsive terminal renderer for the Present spec: verdicts, charts, flows, risk maps and more \u2014 in Unicode or plain ASCII.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
     "terminal",
     "tui",
     "infographic",
-    "present-ir",
+    "present-spec",
     "ascii",
     "charts"
   ],

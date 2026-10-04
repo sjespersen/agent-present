@@ -14,11 +14,11 @@ export function extractJson(reply: string): unknown {
 }
 
 /**
- * Compatibility mode: turns an ordinary prose answer into Present IR with one
+ * Compatibility mode: turns an ordinary prose answer into a Present document with one
  * model call (plus one repair attempt if the result does not validate).
  */
 export async function transformToPresent(answer: string, complete: Complete): Promise<{ raw: unknown; doc: NormalizedDocument }> {
-  const user = `Convert this agent answer into Present IR:\n\n<answer>\n${answer}\n</answer>`;
+  const user = `Convert this agent answer into a Present document:\n\n<answer>\n${answer}\n</answer>`;
   let reply = await complete(TRANSFORM_SYSTEM_PROMPT, user);
   let raw: unknown;
   try {

@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://agent-present.dev/schema/present-ir-0.1.json",
-  "title": "Present IR 0.1",
+  "$id": "https://agent-present.dev/schema/present-0.1.json",
+  "title": "Present spec 0.1",
   "description": "A semantic, renderer-independent description of how information should be presented to a human.",
   "type": "object",
   "properties": {
     "present": {
       "type": "string",
-      "description": "Present IR version, '0.1'"
+      "description": "Present spec version, '0.1'"
     },
     "title": {
       "type": "string",

@@ -14,7 +14,7 @@ export interface ValidationResult {
 }
 
 /**
- * Validates a Present IR document against the 0.1 schema.
+ * Validates a Present document against the 0.1 schema.
  *
  * Unknown block types are warnings, not errors: Present prefers forwards
  * compatibility over strict renderer failure.

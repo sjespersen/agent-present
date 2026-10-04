@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * present-render — render a Present IR document in the terminal.
+ * present-render — render a Present document in the terminal.
  *
  *   present-render doc.json
  *   cat doc.json | present-render --depth scan
@@ -15,7 +15,7 @@ import { ansiStyle, monochromeStyle, plainStyle } from "./style.js";
 
 const HELP = `present-render [file] [options]
 
-Renders a Present IR document (JSON) as a terminal infographic.
+Renders a Present document (JSON) as a terminal infographic.
 Reads stdin when no file is given.
 
   --depth <glance|scan|explore>   information depth (default: glance)
@@ -66,7 +66,7 @@ function main(argv: string[]): number {
   if (onlyValidate) {
     if (result.errors.length) console.log(`errors:\n${formatIssues(result.errors)}`);
     if (result.warnings.length) console.log(`warnings:\n${formatIssues(result.warnings)}`);
-    if (result.valid && !result.warnings.length) console.log("valid Present IR");
+    if (result.valid && !result.warnings.length) console.log("valid Present document");
     return result.valid ? 0 : 1;
   }
 
