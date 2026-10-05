@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/terminal",
   "version": "0.1.0",
-  "description": "Responsive terminal renderer for the Present spec: verdicts, charts, flows, risk maps and more \u2014 in Unicode or plain ASCII.",
+  "description": "Responsive terminal renderer for the Present spec: verdicts, charts, flows, risk maps and more — in Unicode or plain ASCII.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -30,10 +30,11 @@
     "@agent-present/core": "0.1.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
   },
   "bin": {
-    "present-render": "./dist/cli.js"
+    "present-render": "dist/cli.js"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 {
   "name": "@agent-present/core",
   "version": "0.1.0",
-  "description": "The Present spec for AI agents \u2014 types, JSON Schema, validation and normalization.",
+  "description": "The Present spec for AI agents — types, JSON Schema, validation and normalization.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -26,7 +26,8 @@
     "infographic"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",

@@ -22,7 +22,8 @@
     ]
   },
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@agent-present/core": "0.1.0",
