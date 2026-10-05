@@ -6,14 +6,17 @@ It is the [Pi extension](../pi) ported to Claude Code's function hooks, using th
 
 ## Install
 
-The mod is a plugin folder. Load it for one session:
+```bash
+claude plugin marketplace add sjespersen/agent-present
+claude plugin install agent-present@agent-present
+```
+
+Or load the plugin folder for one session:
 
 ```bash
 npm install && npm run build -w @agent-present/claude-code
 claude --plugin-dir packages/claude-code
 ```
-
-To load it in every session, add the folder's absolute path to `CLAUDE_CODE_PLUGIN_DIRS` in the `env` block of `~/.claude/settings.json`.
 
 ## What it does
 

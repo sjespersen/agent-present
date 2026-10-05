@@ -1,0 +1,17 @@
+{
+  "name": "agent-present",
+  "description": "Agent Present: a presentation layer for AI agents. Don't make me read.",
+  "owner": {
+    "name": "Sebastian Jespersen",
+    "url": "https://github.com/sjespersen/agent-present"
+  },
+  "plugins": [
+    {
+      "name": "agent-present",
+      "description": "Claude answers with native terminal infographics instead of walls of text",
+      "source": "./packages/claude-code",
+      "category": "productivity",
+      "homepage": "https://github.com/sjespersen/agent-present"
+    }
+  ]
+}

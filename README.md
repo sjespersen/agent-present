@@ -94,19 +94,20 @@ A `present` call with `intent: "progress"` does not end the turn. It shows a liv
 
 ## Install (Claude Code)
 
-The [Claude Code mod](packages/claude-code) is a plugin folder of function hooks:
+This repository is a Claude Code plugin marketplace:
+
+```bash
+claude plugin marketplace add sjespersen/agent-present
+claude plugin install agent-present@agent-present
+```
+
+Restart Claude Code, then type `/present demo all` to see the showcases without spending a token. `claude plugin update agent-present@agent-present` picks up new versions.
+
+To try it for one session without installing, load the [plugin folder](packages/claude-code) directly. The bundle is committed, so there is nothing to build:
 
 ```bash
 git clone https://github.com/sjespersen/agent-present && cd agent-present
 claude --plugin-dir packages/claude-code
-```
-
-The bundle is committed, so there is nothing to build. Type `/present demo all` to see the showcases without spending a token.
-
-To load the mod in every session, add the folder to your settings (`~/.claude/settings.json`):
-
-```json
-{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "/path/to/agent-present/packages/claude-code" } }
 ```
 
 It behaves like the Pi extension:
@@ -228,7 +229,7 @@ Use the primitive pages for expected semantics and `examples/` as fixtures. The 
 |---|---|---|
 | [`@agent-present/pi`](packages/pi) | [![npm](https://img.shields.io/npm/v/@agent-present/pi)](https://www.npmjs.com/package/@agent-present/pi) | The Pi extension. Install with `pi install npm:@agent-present/pi`. |
 | [`@agent-present/terminal`](packages/terminal) | [![npm](https://img.shields.io/npm/v/@agent-present/terminal)](https://www.npmjs.com/package/@agent-present/terminal) | Terminal renderer and the `present-render` CLI. |
-| [`packages/claude-code`](packages/claude-code) | — | The Claude Code mod. Load with `claude --plugin-dir packages/claude-code`. |
+| [`packages/claude-code`](packages/claude-code) | — | The Claude Code mod. Install from this repo's marketplace: `claude plugin install agent-present@agent-present`. |
 | [`@agent-present/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@agent-present/core)](https://www.npmjs.com/package/@agent-present/core) | Types, JSON Schema, validation and normalization. Zero dependencies. |
 
 ## Architecture
