@@ -1,0 +1,16 @@
+{
+  "name": "@agent-present/claude-code",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent Present for Claude Code: a mod that lets Claude answer with native terminal infographics.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.mjs",
+    "install-mod": "node build.mjs --install"
+  },
+  "devDependencies": {
+    "@agent-present/core": "0.1.0",
+    "@agent-present/terminal": "0.1.0"
+  }
+}

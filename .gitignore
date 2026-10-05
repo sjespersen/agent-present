@@ -4,3 +4,5 @@ packages/terminal/dist/
 *.log
 .DS_Store
 scratch/
+# written by Claude Code each time it loads the mod from a folder
+packages/claude-code/.claude-plugin/types/

@@ -14,3 +14,5 @@ jobs:
       - run: npm test
       - name: Committed Pi bundle is up to date
         run: git diff --exit-code packages/pi/dist/index.js
+      - name: Committed Claude Code bundle is up to date
+        run: git diff --exit-code packages/claude-code/hooks/present.js

@@ -13,7 +13,7 @@ Agent Present lets an agent answer with **visual information structures instead 
 
 > **If information has structure, show the structure. Don't describe it.**
 
-It ships as an open specification (the **Present spec**), a responsive terminal renderer, and a native extension for the [Pi](https://pi.dev) coding agent.
+It ships as an open specification (the **Present spec**), a responsive terminal renderer, a native extension for the [Pi](https://pi.dev) coding agent, and a mod for [Claude Code](#install-claude-code).
 
 ## Before / after
 
@@ -91,6 +91,34 @@ The agent still answers trivial questions in plain text. *"What's the command to
 ### Work in progress
 
 A `present` call with `intent: "progress"` does not end the turn. It shows a live status widget above the editor that disappears when the final presentation arrives.
+
+## Install (Claude Code)
+
+The [Claude Code mod](packages/claude-code) is a plugin folder of function hooks:
+
+```bash
+git clone https://github.com/sjespersen/agent-present && cd agent-present
+claude --plugin-dir packages/claude-code
+```
+
+The bundle is committed, so there is nothing to build. Type `/present demo all` to see the showcases without spending a token.
+
+To load the mod in every session, add the folder to your settings (`~/.claude/settings.json`):
+
+```json
+{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "/path/to/agent-present/packages/claude-code" } }
+```
+
+It behaves like the Pi extension:
+
+- **The presentation is drawn in place of the tool's row** in the transcript, in your Claude Code theme's colours. The model's copy of the result stays out of sight.
+- **No duplicate answers.** A final presentation ends the turn: the model request that would follow it is never sent.
+- **Actions.** After a presentation, a band above the prompt offers its actions as buttons (`ctrl+x tab` to focus it, then a digit). `/present act <n>` runs them too.
+- **Explorer.** `/present view` opens a pane: `g` `s` `x` switch between glance, scan and explore, `r` shows the raw document, `c` copies the presentation as text, `1–9` run an action, and `esc` closes it.
+- **Progress.** A `progress` call shows a live band above the prompt while Claude keeps working.
+- **Headless.** In `claude -p`, the answer is the presentation rendered as plain text.
+
+`/present` takes the same subcommands as in Pi: `auto`, `always`, `off`, `last`, `demo`, `view`, `raw` and `act`. See the [mod's README](packages/claude-code/README.md) for details.
 
 ## Gallery
 
@@ -200,6 +228,7 @@ Use the primitive pages for expected semantics and `examples/` as fixtures. The 
 |---|---|---|
 | [`@agent-present/pi`](packages/pi) | [![npm](https://img.shields.io/npm/v/@agent-present/pi)](https://www.npmjs.com/package/@agent-present/pi) | The Pi extension. Install with `pi install npm:@agent-present/pi`. |
 | [`@agent-present/terminal`](packages/terminal) | [![npm](https://img.shields.io/npm/v/@agent-present/terminal)](https://www.npmjs.com/package/@agent-present/terminal) | Terminal renderer and the `present-render` CLI. |
+| [`packages/claude-code`](packages/claude-code) | — | The Claude Code mod. Load with `claude --plugin-dir packages/claude-code`. |
 | [`@agent-present/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@agent-present/core)](https://www.npmjs.com/package/@agent-present/core) | Types, JSON Schema, validation and normalization. Zero dependencies. |
 
 ## Architecture
@@ -209,7 +238,8 @@ agent-present/
 ├── packages/
 │   ├── core/        @agent-present/core      types · JSON Schema · validation · normalization · semantics   (zero dependencies)
 │   ├── terminal/    @agent-present/terminal  layout · typography · charts · graph layout · themes · CLI     (depends on core)
-│   └── pi/          @agent-present/pi        Pi extension: present tool · renderer · explorer · commands · model instructions
+│   ├── pi/          @agent-present/pi        Pi extension: present tool · renderer · explorer · commands · model instructions
+│   └── claude-code/ Claude Code mod          function hooks: present tool · transcript drawing · bands · explorer pane · commands
 ├── specification/   Present spec, JSON Schema, primitive reference, minimal examples
 ├── examples/        canonical showcase documents (+ conventional "before" answers)
 ├── gallery/         screenshots and golden text renders
@@ -220,13 +250,13 @@ agent-present/
 Present JSON → validate → normalize → plan (depth + information budget) → layout (width, unicode) → lines
 ```
 
-The core package knows nothing about Pi or terminals, and the terminal package knows nothing about Pi. Pi is the first reference host, not an architectural dependency. The Pi extension is a single bundled file, so `pi install` needs no build step.
+The core package knows nothing about Pi or terminals, and the terminal package knows nothing about Pi. Pi and Claude Code are hosts, not architectural dependencies. Each host integration is a single bundled file, so neither `pi install` nor `claude --plugin-dir` needs a build step.
 
 Under the hood the terminal renderer includes a layered graph layout with orthogonal bus routing (Sugiyama-style, falling back to inline chains and indented lists), a line chart in the style of asciichart that annotates change points, half-block oversized numerals, sub-cell bars, and a grid canvas that merges box-drawing junctions. Every line is guaranteed to fit the width it was given.
 
 ## Testing "don't make me read"
 
-`npm test` runs 93 tests. Beyond the usual unit tests:
+`npm test` runs 111 tests. Beyond the usual unit tests:
 
 - Every example renders at 40–160 columns, at every depth, in Unicode and ASCII, without a single line exceeding the width.
 - ASCII mode emits only ASCII. Monochrome output keeps meaning through glyphs.
@@ -234,8 +264,9 @@ Under the hood the terminal renderer includes a layered graph layout with orthog
 - **Compression:** compared with a conventional answer written from the same facts (`examples/before/`), the glance must remove at least 60% of the prose. In practice the four showcases remove 87–98%.
 - Golden renders in `gallery/text/` catch visual regressions.
 - The Pi extension is tested against a fake host: tool results, termination, streaming previews, commands, mode persistence and `/present last` repair.
+- The Claude Code mod's hooks are tested against Claude Code itself (`claude plugin test packages/claude-code`, 41 tests). Its drawings are checked on the terminal and desktop surfaces at widths from 40 to 160 columns, and its bundle must draw exactly what the terminal renderer draws.
 
-It has also been run end to end in the real Pi TUI with a live model. The model chose `present` for structured answers, produced valid IR on the first attempt, ended its turn without repeating itself, and answered small talk in plain text.
+Both hosts have also been run end to end in their real TUIs with a live model. The model chose `present` for structured answers, produced valid IR on the first attempt, ended its turn without repeating itself, and answered small talk in plain text.
 
 ## Development
 
@@ -252,7 +283,7 @@ npm run gallery      # regenerate PNG screenshots (needs Chrome/Chromium)
 
 ## Status and roadmap
 
-v0.1 is a terminal-first proving ground: the spec, a validator, the terminal renderer and the Pi extension. Explicitly out of scope for now: browser renderer, MCP Apps, AG-UI transport, an A2UI compiler, other agent hosts, generated images, arbitrary HTML.
+v0.1 is a terminal-first proving ground: the spec, a validator, the terminal renderer, the Pi extension and the Claude Code mod. Explicitly out of scope for now: browser renderer, MCP Apps, AG-UI transport, an A2UI compiler, generated images, arbitrary HTML.
 
 ```
                         PRESENT SPEC

@@ -8,7 +8,8 @@
   "workspaces": [
     "packages/core",
     "packages/terminal",
-    "packages/pi"
+    "packages/pi",
+    "packages/claude-code"
   ],
   "keywords": [
     "pi-package"
@@ -19,7 +20,7 @@
     ]
   },
   "scripts": {
-    "build": "npm run build -w @agent-present/core && npm run build -w @agent-present/terminal && npm run build -w @agent-present/pi",
+    "build": "npm run build -w @agent-present/core && npm run build -w @agent-present/terminal && npm run build -w @agent-present/pi && npm run build -w @agent-present/claude-code",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest --run",
     "gallery": "node --experimental-strip-types scripts/gallery.ts",

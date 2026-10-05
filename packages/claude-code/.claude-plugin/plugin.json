@@ -1,0 +1,9 @@
+{
+  "name": "agent-present",
+  "version": "0.1.0",
+  "description": "Agent Present: Claude answers with native terminal infographics instead of walls of text. Don't make me read.",
+  "author": { "name": "Sebastian Jespersen" },
+  "homepage": "https://github.com/sjespersen/agent-present",
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}
