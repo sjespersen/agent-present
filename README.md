@@ -31,13 +31,21 @@ The same facts. The conventional answer is 300 words; the glance view has a sing
 ## Install (Pi)
 
 ```bash
-pi install git:github.com/sjespersen/agent-present
+pi install npm:@agent-present/pi
 ```
 
-Once the packages are on npm this becomes `pi install npm:@agent-present/pi`. To try it without installing, from a clone:
+That's it. [![npm](https://img.shields.io/npm/v/@agent-present/pi?label=%40agent-present%2Fpi)](https://www.npmjs.com/package/@agent-present/pi)
+
+To try it for one session without installing:
 
 ```bash
-pi -e ./packages/pi/dist/index.js
+pi -e npm:@agent-present/pi
+```
+
+Or install straight from GitHub to track `main`:
+
+```bash
+pi install git:github.com/sjespersen/agent-present
 ```
 
 Then just work. When an answer has structure, the agent calls the `present` tool and the result renders natively in the transcript. No configuration. Type `/present demo` to see the showcases without spending a token.
@@ -151,17 +159,20 @@ Sixteen primitives in v0.1: `verdict` `metric` `metrics` `comparison` `flow` `ar
 
 ## Render anywhere
 
-The terminal renderer works without Pi:
+The terminal renderer works without Pi. Its `present-render` command renders any Present document:
 
 ```bash
-npm install && npm run build
-npm run demo -- examples/debugging.json              # glance
-npm run demo -- examples/debugging.json --depth scan
-cat my-doc.json | node packages/terminal/dist/cli.js --width 80 --ascii
-node packages/terminal/dist/cli.js my-doc.json --validate
+npx -p @agent-present/terminal present-render doc.json                  # glance
+npx -p @agent-present/terminal present-render doc.json --depth scan
+cat doc.json | npx -p @agent-present/terminal present-render --width 80 --ascii
+npx -p @agent-present/terminal present-render doc.json --validate
 ```
 
-Or as a library:
+The [`examples/`](examples/) folder has documents to try. Or use it as a library:
+
+```bash
+npm install @agent-present/core @agent-present/terminal
+```
 
 ```ts
 import { validate } from "@agent-present/core";
@@ -182,6 +193,14 @@ The Present spec is meant to have many renderers: web, mobile, voice, SVG. `@age
 - `proseStats(text)` measures how much reading a rendering demands, so "don't make me read" can be tested.
 
 Use the primitive pages for expected semantics and `examples/` as fixtures. The terminal renderer in [`packages/terminal`](packages/terminal) is a working reference.
+
+## Packages
+
+| package | npm | what it is |
+|---|---|---|
+| [`@agent-present/pi`](packages/pi) | [![npm](https://img.shields.io/npm/v/@agent-present/pi)](https://www.npmjs.com/package/@agent-present/pi) | The Pi extension. Install with `pi install npm:@agent-present/pi`. |
+| [`@agent-present/terminal`](packages/terminal) | [![npm](https://img.shields.io/npm/v/@agent-present/terminal)](https://www.npmjs.com/package/@agent-present/terminal) | Terminal renderer and the `present-render` CLI. |
+| [`@agent-present/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@agent-present/core)](https://www.npmjs.com/package/@agent-present/core) | Types, JSON Schema, validation and normalization. Zero dependencies. |
 
 ## Architecture
 
